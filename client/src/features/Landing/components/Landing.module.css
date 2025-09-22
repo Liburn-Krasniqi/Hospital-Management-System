@@ -1,0 +1,12 @@
+.gradient_text {
+  background: linear-gradient(rgba(112, 245, 255, 1), rgb(2, 207, 222));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.paragraph {
+  max-width: 500px;
+  color: rgb(133, 162, 169);
+}
