@@ -7,10 +7,10 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import classes from "./Navigation.module.css";
 
-function Navigation() {
+export function Navigation() {
   return (
     <>
-        <Navbar key={'lg'} expand={'lg'} className="background-2 mb-3 shadow-bottom">
+        <Navbar key={'lg'} expand={'lg'} className={`background-2 mb-3 shadow-bottom ${classes.test}`}>
           <Container fluid>
             <Navbar.Brand className="color-3 fs-1 fw-bold">HealthCheck</Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
@@ -59,5 +59,3 @@ function Navigation() {
     </>
   );
 }
-
-export default Navigation;

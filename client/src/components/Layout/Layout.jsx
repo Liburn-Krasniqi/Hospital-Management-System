@@ -1,37 +1,16 @@
-import Navigation from "../UI/Navigation";
+import { Outlet } from "react-router-dom";
+
+import { Navigation, Footer} from "../UI";
 
 
-const Layout = () => {
+export const Layout = () => {
     return (
-    <div>
-<Navigation></Navigation>
-        <h1>ALIVE</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec gravida ut nisl sed faucibus. Vivamus eu feugiat ipsum. Donec mattis ultrices velit et viverra. Duis vitae arcu blandit risus ultricies varius. Integer molestie pellentesque malesuada. Nam cursus eu risus eu pharetra. Vestibulum ac felis laoreet, tristique massa non, vestibulum risus. Suspendisse sit amet commodo felis. Morbi id ipsum dignissim, viverra eros nec, maximus mauris. Nam auctor augue vitae turpis mollis, quis feugiat felis auctor. Duis sem urna, consequat at felis vitae, iaculis gravida lacus. Suspendisse quis ante tincidunt, ultrices nibh quis, rutrum quam. Vestibulum in sodales erat. Nunc auctor ante quis posuere condimentum. Fusce nec accumsan lectus. Pellentesque mollis porta ligula.
-
-In dui ligula, porttitor et est sed, molestie hendrerit libero. Curabitur et libero in ex commodo tempus nec a dui. Nullam ac lacus in diam condimentum rhoncus. Cras velit leo, ullamcorper ac turpis ac, maximus interdum justo. Vivamus mattis ut magna vel vestibulum. Morbi interdum, urna suscipit pretium placerat, purus lacus pellentesque nisi, quis dignissim justo ex eu dolor. Etiam ac massa libero. Donec volutpat at magna nec vulputate. Curabitur sed laoreet erat. Etiam in arcu metus. Nulla erat lorem, cursus ut purus sed, suscipit laoreet orci. Praesent imperdiet blandit lectus sit amet imperdiet. Maecenas pellentesque molestie eros at dictum. Maecenas augue tellus, porta non ullamcorper quis, tempor vel elit. Praesent sed vehicula erat.
-
-Quisque eget nulla urna. Aliquam a consequat augue. Cras sagittis odio ac ex auctor, quis iaculis felis ornare. Donec felis felis, scelerisque vitae vulputate at, commodo id leo. Duis cursus, lorem in vestibulum tempor, lectus metus egestas tellus, eget interdum mauris ligula sit amet dolor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse rutrum mi velit, non posuere nisl fringilla quis. Vestibulum a velit massa. Proin bibendum lorem eget dui porttitor tincidunt. Nulla fermentum arcu diam, nec blandit ex molestie vitae. Quisque id efficitur lectus. Nulla quis tempor nulla. Integer eu consectetur augue. Donec vel iaculis tellus, ac hendrerit orci. Vestibulum luctus orci nec condimentum dapibus. Proin fringilla imperdiet iaculis.
-
-Pellentesque pretium sit amet lorem a pharetra. Pellentesque et elementum odio. Duis ut ornare lectus. Fusce accumsan odio nec ante fermentum consectetur. Aliquam vehicula bibendum suscipit. Donec in felis ut ligula semper egestas. Donec rutrum aliquam enim, at lacinia nulla lobortis non. Nulla facilisi. Vivamus feugiat enim ante, eget porttitor eros fermentum et. Praesent a auctor justo. Nulla elementum urna risus, eget eleifend quam congue quis. Vivamus iaculis eleifend risus a faucibus. Sed nec enim quis augue vestibulum consequat. Aliquam porta nisl nulla, ac egestas sem efficitur non.
-
-Nulla a dictum neque. Sed condimentum diam quis tellus sollicitudin, sit amet condimentum purus dictum. Phasellus cursus molestie turpis, pharetra porta velit porta eu. Sed cursus, tortor nec tristique pharetra, ipsum mi vulputate nibh, a semper lectus arcu sed ligula. Cras vel tempus mauris. Sed sagittis ipsum quis velit faucibus, vel sagittis est convallis. In sed cursus augue. Donec id sapien eleifend, ultrices nisi quis, finibus est. Sed tempor consectetur lobortis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-
-Etiam tempus aliquet odio, et maximus velit varius mollis. Sed vel arcu nec odio accumsan rhoncus non vel libero. Cras dui libero, pharetra eu elit ac, venenatis congue magna. Cras pharetra nisl urna, ac ultrices nisl lacinia id. Fusce sit amet gravida magna, vel laoreet dolor. Ut non malesuada lorem, et dictum enim. Duis elementum, orci vitae vehicula feugiat, dolor risus vulputate ligula, at pellentesque arcu elit vitae velit. Phasellus non gravida est, in sodales tellus. Curabitur mattis suscipit turpis sit amet euismod. Phasellus pretium nunc suscipit, dignissim ex vel, luctus erat. In vitae hendrerit lectus. Ut sed sapien eu ante accumsan vehicula quis eget purus. Maecenas venenatis volutpat ante. Aenean semper sed purus congue blandit. Praesent turpis nisi, semper vel finibus et, viverra vel quam. Fusce sodales dui vitae turpis ultricies, a sagittis massa sollicitudin.
-
-Sed vel turpis eget felis commodo sodales rhoncus sit amet nibh. Proin vulputate nec ipsum quis porttitor. Nullam vehicula odio quis neque ultrices ultrices. Nam non vulputate sem, nec faucibus tortor. Vestibulum vestibulum ligula vel dolor gravida volutpat. Phasellus malesuada lectus sapien, nec ultricies tortor facilisis quis. Ut sollicitudin condimentum ipsum, eu convallis urna laoreet et. Praesent nec augue in arcu viverra dapibus eu in est. Sed dignissim, neque eu elementum gravida, ante nibh tristique diam, vitae scelerisque lacus eros ac sapien. Phasellus suscipit dignissim orci, eu blandit magna rutrum vel. Vestibulum euismod finibus dolor nec varius. Sed suscipit lorem ipsum, eget efficitur felis pellentesque a. Sed sed justo ut odio ultricies laoreet eget vitae enim. Vestibulum facilisis imperdiet dolor sed egestas. Ut quis risus in leo pharetra euismod. Etiam tincidunt augue et euismod volutpat.
-
-Morbi dui nulla, maximus vel iaculis maximus, egestas ac neque. Pellentesque gravida dictum nulla eget facilisis. Nullam id ornare odio. Praesent risus sapien, imperdiet a venenatis non, imperdiet sit amet urna. Sed commodo, dui vitae efficitur fermentum, mauris libero lacinia nibh, faucibus pellentesque nisl risus in neque. Donec ante est, convallis eget luctus ac, facilisis ac mauris. Curabitur sollicitudin dolor sit amet felis eleifend iaculis. Vivamus semper augue non mollis dignissim. Nullam malesuada finibus nunc, nec pellentesque turpis bibendum et. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse condimentum sit amet purus ac interdum. Fusce mollis ac elit ut egestas. Proin sed mi massa.
-
-Pellentesque diam ipsum, sodales blandit lobortis vitae, dignissim ac arcu. Praesent nunc justo, consectetur eget lacus quis, interdum imperdiet tortor. Aenean dictum, tellus quis tempor sodales, orci felis luctus turpis, ac viverra felis sem ac ipsum. Vivamus suscipit, purus sed congue varius, sapien ipsum tincidunt ex, bibendum tincidunt nisl tortor vitae elit. Sed dignissim tortor in tortor varius dignissim. Sed convallis magna ut urna interdum, sed suscipit dolor aliquet. Maecenas fermentum imperdiet rutrum. Nam eu risus massa. Aliquam suscipit felis ut tempus auctor. Integer suscipit lacinia interdum.
-
-Nulla elementum convallis mi nec blandit. Sed semper pellentesque velit ac tempor. Cras libero felis, rutrum in tincidunt a, volutpat at metus. Fusce vulputate a nunc eget lobortis. Suspendisse commodo nibh a efficitur bibendum. Sed hendrerit justo at arcu mollis ornare. Cras vestibulum dignissim felis, vel tincidunt nisi maximus elementum. Aliquam facilisis lobortis sapien sit amet porta. Duis interdum, nisi non faucibus fermentum, nibh urna pulvinar ipsum, et venenatis odio velit condimentum quam. Cras elementum, elit ut scelerisque pharetra, odio est aliquet dui, a consequat dolor tellus sit amet dui. Donec dictum, nibh in volutpat gravida, nisl massa dignissim ex, in consequat metus tortor eu sem. Praesent auctor tincidunt massa nec luctus. Maecenas id lectus sapien.
-
-Phasellus at nisl ex. Curabitur sit amet elementum purus. Ut egestas risus sit amet dolor vehicula imperdiet. Donec mollis non enim eu ultrices. Praesent commodo condimentum mollis. Aenean eget leo diam. Nulla nec nulla sed neque ornare sodales et eu quam. Praesent nisi ex, faucibus sit amet mauris eget, semper placerat nunc. Pellentesque nec augue ut ante feugiat dignissim. Quisque dictum viverra tortor, in commodo quam. Phasellus pellentesque nibh vitae rutrum consequat. Donec posuere consequat arcu at rutrum. Maecenas vehicula nisl non massa semper posuere. Nullam sed imperdiet orci, a posuere nunc. Proin nec lectus lacus. Praesent laoreet auctor lacus, non eleifend dolor rhoncus quis. </p>
-        <footer>
-          Footer
-        </footer>
+    <div className="layout-container">
+    <Navigation/>
+          <main className="content">
+            <Outlet /> {/* This renders the current route's component */}
+          </main>
+    <Footer/>
     </div>
   );
 }
-
-export default Layout;
