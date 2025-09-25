@@ -13,3 +13,104 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Patient{
+  id  String @id @default(uuid())
+  name String
+  email String @unique
+  password String
+  phone String
+  address String
+  dateOfBirth DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  appointments Appointment[] 
+  }
+
+model Doctor{
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  password String
+  phone String
+  specialty String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  appointments Appointment[] 
+}
+
+model Room{
+  id String @id @default(uuid())
+  roomNumber String @unique
+  type String // e.g., single, double, suite
+  status String @default("available") // e.g., available, occupied, maintenance
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Service{
+  id String @id @default(uuid())
+  name String
+  description String
+  price Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Report{
+  id String @id @default(uuid())
+  patientId String
+  doctorId String
+  reportDate DateTime @default(now())
+  findings String
+  recommendations String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // patient Patient @relation(fields: [patientId], references: [id])
+  // doctor Doctor @relation(fields: [doctorId], references: [id])
+}
+
+model Bill{
+  id String @id @default(uuid())
+  patientId String
+  amount Float
+  billingDate DateTime @default(now())
+  dueDate DateTime
+  status String @default("unpaid") // e.g., unpaid, paid, overdue
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Uncomment the following line if you want to establish a relation
+  // patient Patient @relation(fields: [patientId], references: [id])
+}
+
+// AI generated model for Appointment, will have to look into it myself
+model Appointment{
+  id String @id @default(uuid())
+  patientId String
+  doctorId String
+  appointmentDate DateTime
+  reason String
+  status String @default("scheduled") // e.g., scheduled, completed, canceled
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  doctor Doctor @relation(fields: [doctorId], references: [id])
+}
+
+model AppointmentRequest{
+  id String @id @default(uuid())
+  patientId String
+  doctorId String
+  requestedDate DateTime
+  reason String
+  status String @default("pending") // e.g., pending, approved, rejected
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Uncomment the following lines if you want to establish relations
+  // patient Patient @relation(fields: [patientId], references: [id])
+  // doctor Doctor @relation(fields: [doctorId], references: [id])
+}
