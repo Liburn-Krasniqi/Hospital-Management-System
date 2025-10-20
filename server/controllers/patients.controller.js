@@ -3,9 +3,11 @@ import { PatientService } from "../services/patients.service.js";
 // @desc    Get all patients
 // @route   GET /api/patients
 export async function getPatients(req, res, next) {
-  const limit = parseInt(req.body.limit); // For pagination
+  // For pagination
+  const take = parseInt(req.body.take);
+  const skip = parseInt(req.body.skip);
 
-  const patients = await PatientService.getPatients(limit);
+  const patients = await PatientService.getPatients(take, skip);
 
   res.status(200).json(patients);
 }

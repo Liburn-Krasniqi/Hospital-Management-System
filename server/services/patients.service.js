@@ -2,10 +2,26 @@ import { prisma } from "../server.js";
 
 export class PatientService {
   // Get patients
-  static async getPatients(limit) {
-    if (!isNaN(limit) && limit > 0) {
+  static async getPatients(take, skip) {
+    // Validate for pagination
+    const isTakeValid = !isNaN(take) && take > 0;
+    const isSkipValid = !isNaN(skip) && skip > 0;
+
+    if (!isTakeValid && isSkipValid) {
+      // Only skip
       return await prisma.patient.findMany({
-        take: limit, // Specify how many you want to return
+        skip: skip, // Specify how many you want to skip
+      });
+    } else if (isTakeValid && !isSkipValid) {
+      // Only take
+      return await prisma.patient.findMany({
+        take: take, // Specify how many you want to take
+      });
+    } else if (isTakeValid && isSkipValid) {
+      // both
+      return await prisma.patient.findMany({
+        take: take,
+        skip: skip,
       });
     }
 
