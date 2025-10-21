@@ -2,30 +2,17 @@ import { prisma } from "../server.js";
 
 export class PatientService {
   // Get patients
-  static async getPatients(take, skip) {
-    // Validate for pagination
-    const isTakeValid = !isNaN(take) && take > 0;
-    const isSkipValid = !isNaN(skip) && skip > 0;
+  static async getPatients(data) {
+    // const defaultPage = 0;
+    // const defaultSearch = "";
+    // const defaultSort = "createdAt";
+    const defaultLimit = 5;
+    const defaultOffset = 0;
 
-    if (!isTakeValid && isSkipValid) {
-      // Only skip
-      return await prisma.patient.findMany({
-        skip: skip, // Specify how many you want to skip
-      });
-    } else if (isTakeValid && !isSkipValid) {
-      // Only take
-      return await prisma.patient.findMany({
-        take: take, // Specify how many you want to take
-      });
-    } else if (isTakeValid && isSkipValid) {
-      // both
-      return await prisma.patient.findMany({
-        take: take,
-        skip: skip,
-      });
-    }
-
-    return await prisma.patient.findMany({});
+    return await prisma.patient.findMany({
+      take: take || defaultLimit,
+      skip: skip || defaultOffset,
+    });
   }
 
   // Create patient

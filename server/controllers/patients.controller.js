@@ -4,8 +4,8 @@ import { PatientService } from "../services/patients.service.js";
 // @route   GET /api/patients
 export async function getPatients(req, res, next) {
   // For pagination
-  const take = parseInt(req.body.take);
   const skip = parseInt(req.body.skip);
+  const take = parseInt(req.body.take);
 
   const patients = await PatientService.getPatients(take, skip);
 
