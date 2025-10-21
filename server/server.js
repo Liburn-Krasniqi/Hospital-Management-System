@@ -9,7 +9,7 @@ import notFound from "./middleware/notFound.js";
 // Route imports
 import posts from "./routes/posts.js";
 import patients from "./routes/patients.js";
-// Use a sinle prisma client instance
+// Use a single prisma client instance, should this be here??
 import prismaInstance from "./prismaClient.js";
 export const prisma = prismaInstance;
 

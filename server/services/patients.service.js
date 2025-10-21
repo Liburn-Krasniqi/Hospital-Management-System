@@ -15,6 +15,15 @@ export class PatientService {
     });
   }
 
+  // Get one patient based on id
+  static async getPatient(id) {
+    return await prisma.patient.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  }
+
   // Create patient
   static async createPatient(data) {
     const patient = await prisma.patient.create({
