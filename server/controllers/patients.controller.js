@@ -3,13 +3,18 @@ import { PatientService } from "../services/patients.service.js";
 // @desc    Get all patients
 // @route   GET /api/patients
 export async function getPatients(req, res, next) {
-  // For pagination
-  const skip = parseInt(req.body.skip);
-  const take = parseInt(req.body.take);
+  try {
+    // For pagination
+    const skip = parseInt(req.body.skip);
+    const take = parseInt(req.body.take);
 
-  const patients = await PatientService.getPatients(take, skip);
+    const patients = await PatientService.getPatients(take, skip);
 
-  res.status(200).json(patients);
+    res.status(200).json(patients);
+  } catch (error) {
+    res.status(500).json(error.message);
+    console.log(error);
+  }
 }
 
 // @desc    Get a single post
@@ -30,32 +35,47 @@ export async function getPatients(req, res, next) {
 // @desc    Create patient
 // @route   Post /api/patients
 export async function createPatient(req, res, next) {
-  const data = req.body;
+  try {
+    const data = req.body;
 
-  const patient = await PatientService.createPatient(data);
+    const patient = await PatientService.createPatient(data);
 
-  res.status(201).json(patient);
+    res.status(201).json(patient);
+  } catch (error) {
+    res.status(400).json(error.message);
+    console.log(error);
+  }
 }
 
 // @desc    Update patient
 // @route   PUT /api/patients/:id
 export async function updatePatient(req, res, next) {
-  const id = req.params.id;
+  try {
+    const id = req.params.id;
 
-  // Check here if patient exists first, if not then stop and return
+    // Check here if patient exists first, if not then stop and return
 
-  const data = req.body;
-  const updatedPatient = await PatientService.updatePatient(id, data);
+    const data = req.body;
+    const updatedPatient = await PatientService.updatePatient(id, data);
 
-  res.status(200).json(updatedPatient);
+    res.status(200).json(updatedPatient);
+  } catch (error) {
+    res.status(404).json(error.message);
+    console.log(error);
+  }
 }
 
 // @desc    Delete patient
 // @route   DELETE /api/patients/:id
 export async function deletePatient(req, res, next) {
-  const id = req.params.id; //Check later if possible to use query parameters
+  try {
+    const id = req.params.id; //Check later if possible to use query parameters
 
-  const patient = await PatientService.deletePatient(id);
+    const patient = await PatientService.deletePatient(id);
 
-  res.status(200).json(patient);
+    res.status(200).json(patient);
+  } catch (error) {
+    res.status(404).json(error.message);
+    console.log(error);
+  }
 }

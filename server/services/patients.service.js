@@ -10,8 +10,8 @@ export class PatientService {
     const defaultOffset = 0;
 
     return await prisma.patient.findMany({
-      take: take || defaultLimit,
-      skip: skip || defaultOffset,
+      take: data.take || defaultLimit,
+      skip: data.skip || defaultOffset,
     });
   }
 
