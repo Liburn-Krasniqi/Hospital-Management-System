@@ -15,7 +15,7 @@ export class PatientService {
     });
   }
 
-  // Get one patient based on id
+  // t one patient based on id
   static async getPatient(id) {
     return await prisma.patient.findUnique({
       where: {
