@@ -18,11 +18,16 @@ export function PatientsTable() {
   const [patients, setPatients] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [skip, setSkip] = useState(0);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const take = 5;
 
+  function previousPage() {
+    setSkip(take * (page - 1));
+    setPage(page - 1);
+  }
+
   function nextPage() {
-    setSkip(take * page);
+    setSkip(take * (page + 1));
     setPage(page + 1);
   }
 
@@ -76,6 +81,7 @@ export function PatientsTable() {
             })}
           </tbody>
         </table>
+        <button onClick={previousPage}>previous page</button>
         <button onClick={nextPage}>next page</button>
       </div>
     );
