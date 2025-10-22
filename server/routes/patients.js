@@ -4,7 +4,7 @@ import { PatientController } from "../controllers/patients.controller.js";
 const router = express.Router();
 
 // Get all patients
-router.get("/", PatientController.getPatients);
+router.get("/:take-:skip", PatientController.getPatients);
 
 // Get patients by id
 router.get("/:id", PatientController.getPatient);

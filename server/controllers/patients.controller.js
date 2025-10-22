@@ -6,8 +6,9 @@ export class PatientController {
   static async getPatients(req, res, next) {
     try {
       // For pagination
-      const skip = parseInt(req.body.skip);
-      const take = parseInt(req.body.take);
+      const skip = parseInt(req.params.skip);
+      const take = parseInt(req.params.take);
+      console.log(`Skip: ${skip}, Take: ${take}`);
 
       const patients = await PatientService.getPatients(take, skip);
 
