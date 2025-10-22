@@ -7,10 +7,12 @@ export class PatientService {
     // const defaultSearch = "";
     // const defaultSort = "createdAt";
 
-    return await prisma.patient.findMany({
+    const patientCount = await prisma.patient.count();
+    const patients = await prisma.patient.findMany({
       take: take || 5,
       skip: skip || 0,
     });
+    return [patients, patientCount];
   }
 
   // t one patient based on id
