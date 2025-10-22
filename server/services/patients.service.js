@@ -2,16 +2,25 @@ import { prisma } from "../server.js";
 
 export class PatientService {
   // Get patients
-  static async getPatients(data) {
+  static async getPatients(take, skip) {
     // const defaultPage = 0;
     // const defaultSearch = "";
     // const defaultSort = "createdAt";
-    const defaultLimit = 5;
-    const defaultOffset = 0;
 
-    return await prisma.patient.findMany({
-      take: take || defaultLimit,
-      skip: skip || defaultOffset,
+    const patientCount = await prisma.patient.count();
+    const patients = await prisma.patient.findMany({
+      take: take || 5,
+      skip: skip || 0,
+    });
+    return [patients, patientCount];
+  }
+
+  // t one patient based on id
+  static async getPatient(id) {
+    return await prisma.patient.findUnique({
+      where: {
+        id: id,
+      },
     });
   }
 
