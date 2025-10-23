@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import classes from "./PatientsTable.module.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 const url = "http://localhost:8000/api/patients/";
 
 // model Patient{
@@ -29,11 +30,15 @@ export function PatientsTable() {
   function jumpToPage(page) {
     setSkip(take * page);
     setPage(page);
-    console.log("Fire: " + page);
   }
 
   function handleEdit(id) {
-    setEdit(true);
+    fetch(`${url}id/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const patientToEdit = data;
+        setEdit(patientToEdit);
+      });
   }
 
   function handleDelete(id) {
@@ -54,7 +59,7 @@ export function PatientsTable() {
       .then((response) => response.json())
       .then((data) => {
         setPatients(data[0]); // Since this returns an array of [patients, patientsCount]
-        setPages(Math.floor(data[1] / take) + 1); // Set the number of pages based on the number of patients and how many we display per page
+        setPages(Math.floor(data[1] / take) + 1); // Set the number of pages based on the number of patients and how many we display per page //Reconsider using roof instead of floor
         setLoading(false);
       });
   }, [skip]);
@@ -72,12 +77,70 @@ export function PatientsTable() {
   } else {
     return (
       <div className="table-responsive-lg">
-        {isEdit ? (
-          <>
-            text
-            <Modal>TEXTTTT</Modal>
-          </>
-        ) : null}
+        <>
+          <Modal show={isEdit} onHide={() => setEdit(false)}>
+            <Modal.Title>{`Edit Patient: ${isEdit.name}`}</Modal.Title>
+            <Modal.Header closeButton></Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group className="mb-3" controlId="formName">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter First and Last Name"
+                    defaultValue={isEdit.name}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    defaultValue={isEdit.email}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formPhone">
+                  <Form.Label>Phone</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Phone Nr"
+                    defaultValue={isEdit.phone}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formAddress">
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Address"
+                    defaultValue={isEdit.address}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBD">
+                  <Form.Label>Date of Birth</Form.Label>
+                  <Form.Control
+                    type="date"
+                    defaultValue={
+                      String(isEdit.dateOfBirth).slice(0, 10) || "2001-09-11"
+                    }
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => setEdit(false)}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={() => setEdit(false)}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+
         <table className="table table-striped table-hover">
           <thead>
             <tr>
