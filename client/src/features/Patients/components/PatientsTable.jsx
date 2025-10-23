@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import classes from "./PatientsTable.module.css";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 const url = "http://localhost:8000/api/patients/";
 
 // model Patient{
@@ -15,14 +17,13 @@ const url = "http://localhost:8000/api/patients/";
 //   appointments Appointment[]
 //   }
 
-// Display the number of pages possible
-
 export function PatientsTable() {
   const [patients, setPatients] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [skip, setSkip] = useState(0);
   const [pages, setPages] = useState(0);
   const [currentPage, setPage] = useState(0);
+  const [isEdit, setEdit] = useState(false);
   const take = 5;
 
   function jumpToPage(page) {
@@ -31,8 +32,25 @@ export function PatientsTable() {
     console.log("Fire: " + page);
   }
 
+  function handleEdit(id) {
+    setEdit(true);
+  }
+
+  function handleDelete(id) {
+    console.log(`${url}${id}`);
+    fetch(`${url}id/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("deleted patient: " + data);
+      });
+  }
+
   useEffect(() => {
-    fetch(`${url}${take || 0}-${skip || 0}`)
+    fetch(`${url}${take || 0}-${skip || 0}`, {
+      method: "GET",
+    })
       .then((response) => response.json())
       .then((data) => {
         setPatients(data[0]); // Since this returns an array of [patients, patientsCount]
@@ -54,6 +72,12 @@ export function PatientsTable() {
   } else {
     return (
       <div className="table-responsive-lg">
+        {isEdit ? (
+          <>
+            text
+            <Modal>TEXTTTT</Modal>
+          </>
+        ) : null}
         <table className="table table-striped table-hover">
           <thead>
             <tr>
@@ -80,10 +104,18 @@ export function PatientsTable() {
                       role="group"
                       aria-label="Basic mixed styles example"
                     >
-                      <button type="button" className="btn btn-warning">
+                      <button
+                        type="button"
+                        className="btn btn-warning"
+                        onClick={() => handleEdit(patient.id)}
+                      >
                         Edit
                       </button>
-                      <button type="button" className="btn btn-danger">
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() => handleDelete(patient.id)}
+                      >
                         Delete
                       </button>
                     </div>
@@ -95,13 +127,13 @@ export function PatientsTable() {
         </table>
 
         <ul className="list-group list-group-horizontal">
-          <button onClick={() => jumpToPage(currentPage - 1)}>
-            previous page
-          </button>
+          <button onClick={() => jumpToPage(currentPage - 1)}>previous</button>
           {pageNumbers.map((number) => {
             return (
               <li
-                className={`list-group-item ${classes.pagination_li}`}
+                className={`list-group-item ${classes.pagination_li} ${
+                  number === currentPage ? classes.curr : ""
+                }`}
                 key={number}
                 id={number}
                 onClick={() => jumpToPage(number)}
@@ -110,7 +142,7 @@ export function PatientsTable() {
               </li>
             );
           })}
-          <button onClick={() => jumpToPage(currentPage + 1)}>next page</button>
+          <button onClick={() => jumpToPage(currentPage + 1)}>next</button>
         </ul>
       </div>
     );

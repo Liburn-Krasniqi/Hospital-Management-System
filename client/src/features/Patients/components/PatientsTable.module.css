@@ -1,3 +1,7 @@
 .pagination_li {
   cursor: pointer;
 }
+
+.curr {
+  background-color: rgb(195, 195, 195);
+}

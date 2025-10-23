@@ -7,15 +7,15 @@ const router = express.Router();
 router.get("/:take-:skip", PatientController.getPatients);
 
 // Get patients by id
-router.get("/:id", PatientController.getPatient);
+router.get("/id/:id", PatientController.getPatient);
 
 //Create new patient
 router.post("/", PatientController.createPatient);
 
 //Update a patient
-router.put("/:id", PatientController.updatePatient);
+router.put("/id/:id", PatientController.updatePatient);
 
 // Delete patient
-router.delete("/:id", PatientController.deletePatient);
+router.delete("/id/:id", PatientController.deletePatient);
 
 export default router;
