@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import classes from "./PatientsTable.module.css";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
+import { Button, Modal, Form } from "react-bootstrap";
 const url = "http://localhost:8000/api/patients/";
 
 // model Patient{
@@ -19,17 +17,34 @@ const url = "http://localhost:8000/api/patients/";
 //   }
 
 export function PatientsTable() {
-  const [patients, setPatients] = useState([]);
-  const [isLoading, setLoading] = useState(true);
+  const [patients, setPatients] = useState([]); // for reading the data and displaying it on the table
+  const [isLoading, setLoading] = useState(true); // for simple aesthetics and indicating that the data is being loaded
+
+  // for pagination
   const [skip, setSkip] = useState(0);
   const [pages, setPages] = useState(0);
   const [currentPage, setPage] = useState(0);
-  const [isEdit, setEdit] = useState(false);
   const take = 5;
+
+  // for editing patients
+  const [isEdit, setEdit] = useState(false);
+  const [patient, setPatient] = useState({
+    //somehow merge this thing with the is edit thing
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    dateOfBirth: null,
+  });
 
   function jumpToPage(page) {
     setSkip(take * page);
     setPage(page);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault(); // Mandatory to avoid default refresh
+    console.log("Patient edited as:" + patient.name);
   }
 
   function handleEdit(id) {
@@ -79,16 +94,20 @@ export function PatientsTable() {
       <div className="table-responsive-lg">
         <>
           <Modal show={isEdit} onHide={() => setEdit(false)}>
-            <Modal.Title>{`Edit Patient: ${isEdit.name}`}</Modal.Title>
-            <Modal.Header closeButton></Modal.Header>
+            <Modal.Header closeButton>
+              <Modal.Title>{`Edit Patient: ${isEdit.name}`}</Modal.Title>
+            </Modal.Header>
             <Modal.Body>
-              <Form>
+              <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formName">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter First and Last Name"
                     defaultValue={isEdit.name}
+                    onChange={(e) => {
+                      setPatient({ ...patient, name: e.target.value });
+                    }}
                   />
                 </Form.Group>
 
@@ -98,6 +117,9 @@ export function PatientsTable() {
                     type="email"
                     placeholder="Enter email"
                     defaultValue={isEdit.email}
+                    onChange={(e) => {
+                      setPatient({ ...patient, email: e.target.value });
+                    }}
                   />
                 </Form.Group>
 
@@ -107,6 +129,9 @@ export function PatientsTable() {
                     type="text"
                     placeholder="Phone Nr"
                     defaultValue={isEdit.phone}
+                    onChange={(e) => {
+                      setPatient({ ...patient, name: e.target.phone });
+                    }}
                   />
                 </Form.Group>
 
@@ -116,6 +141,9 @@ export function PatientsTable() {
                     type="text"
                     placeholder="Address"
                     defaultValue={isEdit.address}
+                    onChange={(e) => {
+                      setPatient({ ...patient, name: e.target.address });
+                    }}
                   />
                 </Form.Group>
 
@@ -123,21 +151,23 @@ export function PatientsTable() {
                   <Form.Label>Date of Birth</Form.Label>
                   <Form.Control
                     type="date"
-                    defaultValue={
-                      String(isEdit.dateOfBirth).slice(0, 10) || "2001-09-11"
-                    }
+                    defaultValue={String(
+                      isEdit.dateOfBirth ?? "2001-09-11"
+                    ).slice(0, 10)}
                   />
                 </Form.Group>
+                <Button variant="secondary" onClick={() => setEdit(false)}>
+                  Close
+                </Button>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={() => setEdit(false)}
+                >
+                  Save Changes
+                </Button>
               </Form>
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={() => setEdit(false)}>
-                Close
-              </Button>
-              <Button variant="primary" onClick={() => setEdit(false)}>
-                Save Changes
-              </Button>
-            </Modal.Footer>
           </Modal>
         </>
 
