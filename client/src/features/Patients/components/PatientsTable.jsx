@@ -30,11 +30,13 @@ export function PatientsTable() {
   const [isEdit, setEdit] = useState(false);
   const [patient, setPatient] = useState({
     //somehow merge this thing with the is edit thing
+    id: "",
     name: "",
     email: "",
     phone: "",
     address: "",
     dateOfBirth: null,
+    password: "",
   });
 
   function jumpToPage(page) {
@@ -44,15 +46,42 @@ export function PatientsTable() {
 
   function handleSubmit(e) {
     e.preventDefault(); // Mandatory to avoid default refresh
-    console.log("Patient edited as:" + patient.name);
+    const send = JSON.stringify({
+      name: patient.name,
+      email: patient.email,
+      phone: patient.phone,
+      address: patient.address,
+      dateOfBirth: patient.dateOfBirth,
+      password: patient.password,
+    });
+    console.log(send);
+
+    fetch(`${url}id/${patient.id}`, {
+      method: "PUT",
+      body: send,
+      headers: { "Content-Type": "application/json" }, // yooo bless stack overflow
+    }).then((response) => {
+      response.json();
+      console.log(response);
+    });
+    alert("Patient edited as:" + JSON.stringify(patient, null, 4));
   }
 
   function handleEdit(id) {
     fetch(`${url}id/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        const patientToEdit = data;
-        setEdit(patientToEdit);
+        const patientToEdit = data; // Potentially remove this thing since the data is already here ??
+        setPatient({
+          id: patientToEdit.id,
+          name: patientToEdit.name,
+          email: patientToEdit.email,
+          phone: patientToEdit.phone,
+          address: patientToEdit.address,
+          dateOfBirth: patientToEdit.dateOfBirth,
+          password: patientToEdit.password,
+        });
+        setEdit(true);
       });
   }
 
@@ -77,7 +106,7 @@ export function PatientsTable() {
         setPages(Math.floor(data[1] / take) + 1); // Set the number of pages based on the number of patients and how many we display per page //Reconsider using roof instead of floor
         setLoading(false);
       });
-  }, [skip]);
+  }, [skip, isEdit]);
 
   console.log(patients);
 
@@ -95,7 +124,7 @@ export function PatientsTable() {
         <>
           <Modal show={isEdit} onHide={() => setEdit(false)}>
             <Modal.Header closeButton>
-              <Modal.Title>{`Edit Patient: ${isEdit.name}`}</Modal.Title>
+              <Modal.Title>{`Edit Patient: ${patient.name}`}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={handleSubmit}>
@@ -104,7 +133,7 @@ export function PatientsTable() {
                   <Form.Control
                     type="text"
                     placeholder="Enter First and Last Name"
-                    defaultValue={isEdit.name}
+                    defaultValue={patient.name}
                     onChange={(e) => {
                       setPatient({ ...patient, name: e.target.value });
                     }}
@@ -116,7 +145,7 @@ export function PatientsTable() {
                   <Form.Control
                     type="email"
                     placeholder="Enter email"
-                    defaultValue={isEdit.email}
+                    defaultValue={patient.email}
                     onChange={(e) => {
                       setPatient({ ...patient, email: e.target.value });
                     }}
@@ -128,7 +157,7 @@ export function PatientsTable() {
                   <Form.Control
                     type="text"
                     placeholder="Phone Nr"
-                    defaultValue={isEdit.phone}
+                    defaultValue={patient.phone}
                     onChange={(e) => {
                       setPatient({ ...patient, name: e.target.phone });
                     }}
@@ -140,7 +169,7 @@ export function PatientsTable() {
                   <Form.Control
                     type="text"
                     placeholder="Address"
-                    defaultValue={isEdit.address}
+                    defaultValue={patient.address}
                     onChange={(e) => {
                       setPatient({ ...patient, name: e.target.address });
                     }}
@@ -152,7 +181,7 @@ export function PatientsTable() {
                   <Form.Control
                     type="date"
                     defaultValue={String(
-                      isEdit.dateOfBirth ?? "2001-09-11"
+                      patient.dateOfBirth ?? "2001-09-11"
                     ).slice(0, 10)}
                   />
                 </Form.Group>
