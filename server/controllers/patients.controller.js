@@ -58,8 +58,8 @@ export class PatientController {
       error.status = 404;
       return next(error);
     }
-
     const data = req.body;
+    console.log("Controller: " + req.body); //remove laterrrr
     const updatedPatient = await PatientService.updatePatient(id, data);
 
     res.status(200).json(updatedPatient);
