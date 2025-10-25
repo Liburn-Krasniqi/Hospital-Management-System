@@ -1,10 +1,3 @@
-import { useState, useEffect } from "react";
-import { Button, Modal, Form } from "react-bootstrap";
-
-import classes from "./PatientsTable.module.css";
-
-const url = "http://localhost:8000/api/patients/"; // probably have this imported later on
-
 // model Patient{
 //   id  String @id @default(uuid())
 //   name String
@@ -17,6 +10,13 @@ const url = "http://localhost:8000/api/patients/"; // probably have this importe
 //   updatedAt DateTime @updatedAt
 //   appointments Appointment[]
 //   }
+
+import { useState, useEffect } from "react";
+import { Button, Modal, Form } from "react-bootstrap";
+
+import classes from "./PatientsTable.module.css";
+
+const url = "http://localhost:8000/api/patients/"; // probably have this imported later on
 
 export function PatientsTable() {
   const [patients, setPatients] = useState([]); // for reading the data and displaying it on the table
@@ -68,21 +68,18 @@ export function PatientsTable() {
     setPatient(patientFormat);
   }
 
-  function handleEdit(id) {
-    fetch(`${url}id/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setPatient({
-          id: data.id,
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          address: data.address,
-          dateOfBirth: data.dateOfBirth,
-          password: data.password,
-        });
-        setEdit(true);
-      });
+  function handleEdit(patient) {
+    // dont take in id but take in the patient then theres no need to contact backend at all ??
+    setPatient({
+      id: patient.id,
+      name: patient.name,
+      email: patient.email,
+      phone: patient.phone,
+      address: patient.address,
+      dateOfBirth: patient.dateOfBirth,
+      password: patient.password,
+    });
+    setEdit(true);
   }
 
   function handleDelete(id) {
@@ -191,7 +188,7 @@ export function PatientsTable() {
                 </Form.Group>
                 <Button
                   variant="secondary"
-                  onHide={() => {
+                  onClick={() => {
                     setEdit(false);
                     setPatient(patientFormat);
                   }}
@@ -239,7 +236,9 @@ export function PatientsTable() {
                       <button
                         type="button"
                         className="btn btn-warning"
-                        onClick={() => handleEdit(patient.id)}
+                        onClick={() => {
+                          handleEdit(patient);
+                        }}
                       >
                         Edit
                       </button>
