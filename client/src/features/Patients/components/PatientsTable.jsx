@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import classes from "./PatientsTable.module.css";
 import { Button, Modal, Form } from "react-bootstrap";
-const url = "http://localhost:8000/api/patients/";
+
+import classes from "./PatientsTable.module.css";
+
+const url = "http://localhost:8000/api/patients/"; // probably have this imported later on
 
 // model Patient{
 //   id  String @id @default(uuid())
@@ -27,9 +29,7 @@ export function PatientsTable() {
   const take = 5;
 
   // for editing patients
-  const [isEdit, setEdit] = useState(false);
-  const [patient, setPatient] = useState({
-    //somehow merge this thing with the is edit thing
+  const patientFormat = {
     id: "",
     name: "",
     email: "",
@@ -37,7 +37,9 @@ export function PatientsTable() {
     address: "",
     dateOfBirth: null,
     password: "",
-  });
+  };
+  const [isEdit, setEdit] = useState(false);
+  const [patient, setPatient] = useState(patientFormat);
 
   function jumpToPage(page) {
     setSkip(take * page);
@@ -46,40 +48,38 @@ export function PatientsTable() {
 
   function handleSubmit(e) {
     e.preventDefault(); // Mandatory to avoid default refresh
-    const send = JSON.stringify({
-      name: patient.name,
-      email: patient.email,
-      phone: patient.phone,
-      address: patient.address,
-      dateOfBirth: patient.dateOfBirth,
-      password: patient.password,
-    });
-    console.log(send);
 
     fetch(`${url}id/${patient.id}`, {
       method: "PUT",
-      body: send,
-      headers: { "Content-Type": "application/json" }, // yooo bless stack overflow
+      body: JSON.stringify({
+        name: patient.name,
+        email: patient.email,
+        phone: patient.phone,
+        address: patient.address,
+        dateOfBirth: patient.dateOfBirth,
+        password: patient.password, // get rid of this later
+      }),
+      headers: { "Content-Type": "application/json" },
     }).then((response) => {
       response.json();
       console.log(response);
     });
     alert("Patient edited as:" + JSON.stringify(patient, null, 4));
+    setPatient(patientFormat);
   }
 
   function handleEdit(id) {
     fetch(`${url}id/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        const patientToEdit = data; // Potentially remove this thing since the data is already here ??
         setPatient({
-          id: patientToEdit.id,
-          name: patientToEdit.name,
-          email: patientToEdit.email,
-          phone: patientToEdit.phone,
-          address: patientToEdit.address,
-          dateOfBirth: patientToEdit.dateOfBirth,
-          password: patientToEdit.password,
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          address: data.address,
+          dateOfBirth: data.dateOfBirth,
+          password: data.password,
         });
         setEdit(true);
       });
@@ -103,12 +103,10 @@ export function PatientsTable() {
       .then((response) => response.json())
       .then((data) => {
         setPatients(data[0]); // Since this returns an array of [patients, patientsCount]
-        setPages(Math.floor(data[1] / take) + 1); // Set the number of pages based on the number of patients and how many we display per page //Reconsider using roof instead of floor
+        setPages(Math.ceil(data[1] / take)); // Set the number of pages based on the number of patients and how many we display per page
         setLoading(false);
       });
   }, [skip, isEdit]);
-
-  console.log(patients);
 
   // Logic for displaying page numbers
   const pageNumbers = [];
@@ -122,7 +120,13 @@ export function PatientsTable() {
     return (
       <div className="table-responsive-lg">
         <>
-          <Modal show={isEdit} onHide={() => setEdit(false)}>
+          <Modal
+            show={isEdit}
+            onHide={() => {
+              setEdit(false);
+              setPatient(patientFormat);
+            }}
+          >
             <Modal.Header closeButton>
               <Modal.Title>{`Edit Patient: ${patient.name}`}</Modal.Title>
             </Modal.Header>
@@ -185,7 +189,13 @@ export function PatientsTable() {
                     ).slice(0, 10)}
                   />
                 </Form.Group>
-                <Button variant="secondary" onClick={() => setEdit(false)}>
+                <Button
+                  variant="secondary"
+                  onHide={() => {
+                    setEdit(false);
+                    setPatient(patientFormat);
+                  }}
+                >
                   Close
                 </Button>
                 <Button
