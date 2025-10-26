@@ -11,6 +11,11 @@
 //   appointments Appointment[]
 //   }
 
+// TODO:
+// 1. Remove the form from the tables implementation. (Create seperate component)
+// 2. Improve style. (Pagiation centering and styling, loading spinny, etc)
+// 3. Derive customTable and customForm from these implementations afterwards. (Might have to do this much later on)
+
 import { useState, useEffect } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 
@@ -99,7 +104,7 @@ export function PatientsTable() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setPatients(data[0]); // Since this returns an array of [patients, patientsCount]
+        setPatients(data[0]); // Since backend returns an array of [[patients] (objects), patientsCount (number)]
         setPages(Math.ceil(data[1] / take)); // Set the number of pages based on the number of patients and how many we display per page
         setLoading(false);
       });
@@ -112,7 +117,17 @@ export function PatientsTable() {
   }
 
   if (isLoading === true) {
-    return <div>This is loading...</div>;
+    return (
+      <div class="d-flex justify-content-center">
+        <div
+          class="spinner-border text-info my-5 "
+          style={{ width: "10rem", height: "10rem" }}
+          role="status"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
   } else {
     return (
       <div className="table-responsive-lg">
