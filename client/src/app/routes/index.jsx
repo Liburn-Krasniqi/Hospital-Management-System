@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router";
 
 import { Layout } from "../../components/Layout";
-import { Landing, Patients } from "../../features";
+import { Landing, Patients, SignUp } from "../../features";
 
 export function AppRoutes() {
   return (
@@ -9,6 +9,7 @@ export function AppRoutes() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Landing />} />
         <Route path="patients" element={<Patients />} />
+        <Route path="signup" element={<SignUp />} />
       </Route>
     </Routes>
   );
