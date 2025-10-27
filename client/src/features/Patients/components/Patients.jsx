@@ -13,7 +13,7 @@
 
 // TODO:
 // 1. Remove the form from the tables implementation. (Create seperate component) DONE.
-// 2. Create a create operation.
+// 2. Create a create operation. DONEish.
 // 3. Improve style. (Pagiation centering and styling, loading spinny, etc)
 // 4. Derive customTable and customForm from these implementations afterwards. (Might have to do this much later on)
 
@@ -45,6 +45,7 @@ export function Patients() {
   const [currentPage, setPage] = useState(0);
   const take = 5;
 
+  const [isCreate, setCreate] = useState(false);
   const [isShow, setShow] = useState(false);
   const [patient, setPatient] = useState(patientFormat);
 
@@ -55,9 +56,15 @@ export function Patients() {
 
   function handleSubmit(e) {
     e.preventDefault(); // Mandatory to avoid default refresh
+    var fetchurl = url;
+    var method = "POST";
 
-    fetch(`${url}id/${patient.id}`, {
-      method: "PUT",
+    if (!isCreate) {
+      method = "PUT";
+      fetchurl = `${url}id/${patient.id}`;
+    }
+    fetch(fetchurl, {
+      method: method,
       body: JSON.stringify({
         name: patient.name,
         email: patient.email,
@@ -72,15 +79,18 @@ export function Patients() {
       console.log(response);
     });
     alert("Patient edited as:" + JSON.stringify(patient, null, 4));
+    setCreate(false);
     setPatient(patientFormat);
   }
 
   function handleCreate() {
     // TODO
+    setCreate(true);
     setShow(true);
   }
 
   function handleEdit(patient) {
+    setCreate(false);
     // dont take in id but take in the patient then theres no need to contact backend at all ??
     setPatient({
       id: patient.id,
@@ -125,6 +135,8 @@ export function Patients() {
   return (
     <div>
       <PatientForm
+        isCreate={isCreate}
+        setCreate={setCreate}
         isShow={isShow}
         setShow={setShow}
         patient={patient}
