@@ -26,7 +26,7 @@ export function PatientsTable({
           <h1>Patients</h1>
           <button
             type="button"
-            className="btn btn-primary ms-auto"
+            className="btn btn-primary ms-auto disabled" //later on for custom table make this dynamic and controlled via arguments
             onClick={handleCreate} // define handle create
           >
             <CirclePlus></CirclePlus> Add Patient
