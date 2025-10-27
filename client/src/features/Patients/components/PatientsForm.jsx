@@ -1,6 +1,14 @@
 import { Button, Modal, Form } from "react-bootstrap";
+import { patientFormat } from "./Patients";
 
-export function PatientForm() {
+export function PatientForm({
+  isEdit,
+  setEdit,
+  patient,
+  setPatient,
+  handleSubmit,
+}) {
+  // Curly braces is for destructuring the prop, so instead of props.isEdit we just write isEdit
   return (
     <>
       <Modal

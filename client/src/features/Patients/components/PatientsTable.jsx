@@ -18,10 +18,11 @@
 
 import { useState, useEffect } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
+import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 
+import { patientFormat, url } from "./Patients";
 import classes from "./PatientsTable.module.css";
-
-const url = "http://localhost:8000/api/patients/"; // probably have this imported later on
+import { PatientForm } from "./PatientsForm";
 
 export function PatientsTable() {
   const [patients, setPatients] = useState([]); // for reading the data and displaying it on the table
@@ -33,16 +34,6 @@ export function PatientsTable() {
   const [currentPage, setPage] = useState(0);
   const take = 5;
 
-  // for editing patients
-  const patientFormat = {
-    id: "",
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    dateOfBirth: null,
-    password: "",
-  };
   const [isEdit, setEdit] = useState(false);
   const [patient, setPatient] = useState(patientFormat);
 
@@ -118,111 +109,27 @@ export function PatientsTable() {
 
   if (isLoading === true) {
     return (
-      <div class="d-flex justify-content-center">
+      <div className="d-flex justify-content-center">
         <div
-          class="spinner-border text-info my-5 "
+          className="spinner-border text-info my-5 "
           style={{ width: "10rem", height: "10rem" }}
           role="status"
         >
-          <span class="visually-hidden">Loading...</span>
+          <span className="visually-hidden">Loading...</span>
         </div>
       </div>
     );
   } else {
     return (
       <div className="table-responsive-lg">
-        <>
-          <Modal
-            show={isEdit}
-            onHide={() => {
-              setEdit(false);
-              setPatient(patientFormat);
-            }}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>{`Edit Patient: ${patient.name}`}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formName">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter First and Last Name"
-                    defaultValue={patient.name}
-                    onChange={(e) => {
-                      setPatient({ ...patient, name: e.target.value });
-                    }}
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Enter email"
-                    defaultValue={patient.email}
-                    onChange={(e) => {
-                      setPatient({ ...patient, email: e.target.value });
-                    }}
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formPhone">
-                  <Form.Label>Phone</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Phone Nr"
-                    defaultValue={patient.phone}
-                    onChange={(e) => {
-                      setPatient({ ...patient, name: e.target.phone });
-                    }}
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formAddress">
-                  <Form.Label>Address</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Address"
-                    defaultValue={patient.address}
-                    onChange={(e) => {
-                      setPatient({ ...patient, name: e.target.address });
-                    }}
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formBD">
-                  <Form.Label>Date of Birth</Form.Label>
-                  <Form.Control
-                    type="date"
-                    defaultValue={String(
-                      patient.dateOfBirth ?? "2001-09-11"
-                    ).slice(0, 10)}
-                  />
-                </Form.Group>
-                <Button
-                  variant="secondary"
-                  onClick={() => {
-                    setEdit(false);
-                    setPatient(patientFormat);
-                  }}
-                >
-                  Close
-                </Button>
-                <Button
-                  variant="primary"
-                  type="submit"
-                  onClick={() => setEdit(false)}
-                >
-                  Save Changes
-                </Button>
-              </Form>
-            </Modal.Body>
-          </Modal>
-        </>
-
-        <table className="table table-striped table-hover">
+        <PatientForm
+          isEdit={isEdit}
+          setEdit={setEdit}
+          patient={patient}
+          setPatient={setPatient}
+          handleSubmit={handleSubmit}
+        ></PatientForm>
+        <table className="table table-striped table-hover my-5">
           <thead>
             <tr>
               <th scope="col">Name</th>
@@ -271,25 +178,30 @@ export function PatientsTable() {
             })}
           </tbody>
         </table>
-
-        <ul className="list-group list-group-horizontal">
-          <button onClick={() => jumpToPage(currentPage - 1)}>previous</button>
-          {pageNumbers.map((number) => {
-            return (
-              <li
-                className={`list-group-item ${classes.pagination_li} ${
-                  number === currentPage ? classes.curr : ""
-                }`}
-                key={number}
-                id={number}
-                onClick={() => jumpToPage(number)}
-              >
-                {number + 1}
-              </li>
-            );
-          })}
-          <button onClick={() => jumpToPage(currentPage + 1)}>next</button>
-        </ul>
+        <div className="d-flex justify-content-center mt-5">
+          <ul className="list-group list-group-horizontal">
+            <button onClick={() => jumpToPage(currentPage - 1)} className="">
+              <ArrowBigLeft></ArrowBigLeft>
+            </button>
+            {pageNumbers.map((number) => {
+              return (
+                <li
+                  className={`list-group-item ${classes.pagination_li} ${
+                    number === currentPage ? classes.curr : ""
+                  }`}
+                  key={number}
+                  id={number}
+                  onClick={() => jumpToPage(number)}
+                >
+                  {number + 1}
+                </li>
+              );
+            })}
+            <button onClick={() => jumpToPage(currentPage + 1)} className="">
+              <ArrowBigRight></ArrowBigRight>
+            </button>
+          </ul>
+        </div>
       </div>
     );
   }
