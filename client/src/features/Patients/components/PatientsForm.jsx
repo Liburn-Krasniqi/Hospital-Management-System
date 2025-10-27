@@ -2,19 +2,19 @@ import { Button, Modal, Form } from "react-bootstrap";
 import { patientFormat } from "./Patients";
 
 export function PatientForm({
-  isEdit,
-  setEdit,
+  isShow,
+  setShow,
   patient,
   setPatient,
   handleSubmit,
 }) {
-  // Curly braces is for destructuring the prop, so instead of props.isEdit we just write isEdit
+  // Curly braces is for destructuring the prop, so instead of (props.isShow) we just write isShow
   return (
     <>
       <Modal
-        show={isEdit}
+        show={isShow}
         onHide={() => {
-          setEdit(false);
+          setShow(false);
           setPatient(patientFormat);
         }}
       >
@@ -54,7 +54,7 @@ export function PatientForm({
                 placeholder="Phone Nr"
                 defaultValue={patient.phone}
                 onChange={(e) => {
-                  setPatient({ ...patient, name: e.target.phone });
+                  setPatient({ ...patient, phone: e.target.value });
                 }}
               />
             </Form.Group>
@@ -66,7 +66,7 @@ export function PatientForm({
                 placeholder="Address"
                 defaultValue={patient.address}
                 onChange={(e) => {
-                  setPatient({ ...patient, name: e.target.address });
+                  setPatient({ ...patient, address: e.target.value });
                 }}
               />
             </Form.Group>
@@ -75,16 +75,18 @@ export function PatientForm({
               <Form.Label>Date of Birth</Form.Label>
               <Form.Control
                 type="date"
-                defaultValue={String(patient.dateOfBirth ?? "2001-09-11").slice(
-                  0,
-                  10
-                )}
+                defaultValue={String(
+                  patient.dateOfBirth ?? new Date().toISOString()
+                ).slice(0, 10)}
+                onChange={(e) => {
+                  setPatient({ ...patient, dateOfBirth: e.target.value });
+                }}
               />
             </Form.Group>
             <Button
               variant="secondary"
               onClick={() => {
-                setEdit(false);
+                setShow(false);
                 setPatient(patientFormat);
               }}
             >
@@ -93,7 +95,7 @@ export function PatientForm({
             <Button
               variant="primary"
               type="submit"
-              onClick={() => setEdit(false)}
+              onClick={() => setShow(false)}
             >
               Save Changes
             </Button>
