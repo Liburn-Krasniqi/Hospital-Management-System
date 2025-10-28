@@ -2,9 +2,14 @@ import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link, Navigate } from "react-router-dom";
 
-import { url, patientFormat } from "../../Patients";
+import { url } from "../../Patients";
 import { Card } from "../../../components/UI";
 
+export const patientFormat = {
+  email: "",
+  password: "",
+};
+//coment
 export function LogIn() {
   const [patient, setPatient] = useState(patientFormat);
   const [created, setCreated] = useState(false);
@@ -12,14 +17,10 @@ export function LogIn() {
     e.preventDefault(); // Mandatory to avoid default refresh
 
     fetch(url, {
-      method: "POST",
+      method: "GET",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: patient.name,
         email: patient.email,
-        phone: patient.phone,
-        address: patient.address,
-        dateOfBirth: patient.dateOfBirth,
         password: patient.password,
       }),
     }).then((response) => {
