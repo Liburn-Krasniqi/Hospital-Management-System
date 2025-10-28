@@ -1,7 +1,7 @@
 import Card from "react-bootstrap/Card";
-import classes from "./UICard.module.css";
+import classes from "./LandingCard.module.css";
 
-export function UICard({ title, text, children }) {
+export function LandingCard({ title, text, children }) {
   return (
     <Card
       style={{
