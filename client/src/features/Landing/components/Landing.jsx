@@ -1,6 +1,6 @@
 import { Stethoscope, Calendar, Shield } from "lucide-react";
 
-import { UICard } from "../../../components/UI";
+import { LandingCard } from "./LandingCard";
 import classes from "./Landing.module.css";
 
 export function Landing() {
@@ -28,29 +28,29 @@ export function Landing() {
       </div>
 
       <div className="d-flex justify-content-center gap-3 mt-3 ">
-        <UICard
+        <LandingCard
           title="Expert Doctors"
           text="Connect with certified specialists across all medical fields"
           buttonText="Learn More"
         >
           <Stethoscope size={32} className="text-primary" />
-        </UICard>
+        </LandingCard>
 
-        <UICard
+        <LandingCard
           title="Easy Scheduling"
           text="Book appointments instantly with real-time availability"
           buttonText="Learn More"
         >
           <Calendar size={32} className="text-primary" />
-        </UICard>
+        </LandingCard>
 
-        <UICard
+        <LandingCard
           title="Secure & Private"
           text="Your health data is protected with enterprise-grade security"
           buttonText="Learn More"
         >
           <Shield size={32} className="text-primary" />
-        </UICard>
+        </LandingCard>
       </div>
     </div>
   );

@@ -1,3 +1,3 @@
-export * from './Navigation';
-export * from './Footer'
-export * from './UICard'
+export * from "./Navigation";
+export * from "./Footer";
+export * from "./Card";

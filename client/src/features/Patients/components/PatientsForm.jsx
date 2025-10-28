@@ -84,7 +84,6 @@ export function PatientForm({
                 <Form.Label>Date of Birth</Form.Label>
                 <Form.Control
                   type="date"
-                  defaultValue={String(new Date().toISOString()).slice(0, 10)}
                   onChange={(e) => {
                     setPatient({ ...patient, dateOfBirth: e.target.value });
                   }}
