@@ -1,15 +1,8 @@
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import NavDropdown from "react-bootstrap/NavDropdown";
-
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import Offcanvas from "react-bootstrap/Offcanvas";
-import classes from "./Navigation.module.css";
+import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { CircleUserRound } from "lucide-react";
+import { Link } from "react-router-dom";
 
-import { Link, useNavigate } from "react-router-dom";
+import classes from "./Navigation.module.css";
 
 export function Navigation() {
   return (
@@ -58,7 +51,7 @@ export function Navigation() {
                 <Nav.Link className="color-3" as={Link} to="/signup">
                   Sign Up
                 </Nav.Link>
-                <Nav.Link className="color-4" as={Link} to="/signup">
+                <Nav.Link className="color-4" as={Link} to="/login">
                   <CircleUserRound></CircleUserRound>
                 </Nav.Link>
 
