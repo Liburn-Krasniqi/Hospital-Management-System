@@ -12,6 +12,9 @@ router.get("/id/:id", PatientController.getPatient);
 //Create new patient
 router.post("/", PatientController.createPatient);
 
+// Log In
+router.post("/login", PatientController.authenticatePatient);
+
 //Update a patient
 router.put("/id/:id", PatientController.updatePatient);
 

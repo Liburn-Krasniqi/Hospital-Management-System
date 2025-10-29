@@ -1,5 +1,5 @@
 import { prisma } from "../server.js";
-
+import bcrypt from "bcrypt";
 export class PatientService {
   // Get patients
   static async getPatients(take, skip) {
@@ -15,7 +15,7 @@ export class PatientService {
     return [patients, patientCount];
   }
 
-  // t one patient based on id
+  // get one patient based on id
   static async getPatient(id) {
     return await prisma.patient.findUnique({
       where: {
@@ -24,8 +24,19 @@ export class PatientService {
     });
   }
 
+  // get one patient based on email
+  static async getPatientEmail(email) {
+    return await prisma.patient.findUnique({
+      where: {
+        email: email,
+      },
+    });
+  }
+
   // Create patient
   static async createPatient(data) {
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+
     const patient = await prisma.patient.create({
       data: {
         name: data.name,
@@ -33,7 +44,7 @@ export class PatientService {
         phone: data.phone,
         dateOfBirth: new Date(data.dateOfBirth).toISOString(),
         address: data.address,
-        password: data.password,
+        password: hashedPassword,
       },
     });
 

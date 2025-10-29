@@ -1,5 +1,5 @@
 import { PatientService } from "../services/patients.service.js";
-
+import bcrypt from "bcrypt";
 export class PatientController {
   // @desc    Get all patients
   // @route   GET /api/patients
@@ -42,6 +42,29 @@ export class PatientController {
       const patient = await PatientService.createPatient(data);
 
       res.status(201).json(patient);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // @desc    Log In patient
+  // @route   Post /api/patients/login
+  static async authenticatePatient(req, res, next) {
+    try {
+      const data = req.body;
+
+      const patient = await PatientService.getPatientEmail(data.email);
+
+      if (patient === null) {
+        return res.status(400).send("Cannot find Patient");
+      }
+
+      if (await bcrypt.compare(data.password, patient.password)) {
+        res.status(200).json(patient); //qitu nashta me dergu ni JWT?
+      } else {
+        res.status(401).send("Not Allowed!");
+      }
+      //
     } catch (error) {
       next(error);
     }
