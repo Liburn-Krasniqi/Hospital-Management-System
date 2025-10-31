@@ -1,4 +1,4 @@
-import { PatientService } from "../services/patients.service.js";
+import { PatientService, Auth } from "../services/index.js";
 import bcrypt from "bcrypt";
 export class PatientController {
   // @desc    Get all patients
@@ -60,7 +60,17 @@ export class PatientController {
       }
 
       if (await bcrypt.compare(data.password, patient.password)) {
-        res.status(200).json(patient); //qitu nashta me dergu ni JWT?
+        const minimalPatient = {
+          // trying to not send the whole patient as to make the token smaller
+          email: patient.email,
+          name: patient.name,
+        };
+        // Generate tokens
+        const [accessToken, refreshToken] = Auth.generateTokens(minimalPatient);
+
+        res
+          .status(200)
+          .json({ accessToken: accessToken, refreshToken: refreshToken });
       } else {
         res.status(401).send("Not Allowed!");
       }
