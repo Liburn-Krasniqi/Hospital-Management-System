@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router";
 
 import { Layout } from "../../components/Layout";
 import { Landing, Patients, SignUp, LogIn } from "../../features";
+import PrivateRoute from "./PrivateRoute"; // use later
 
 export function AppRoutes() {
   return (

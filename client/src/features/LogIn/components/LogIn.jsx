@@ -2,34 +2,27 @@ import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link, Navigate } from "react-router-dom";
 
-import { url } from "../../Patients";
+// import { url } from "../../Patients";
 import { Card } from "../../../components/UI";
+import { useAuth } from "../../../providers";
 
-export const patientFormat = {
+const patientFormat = {
   email: "",
   password: "",
 };
-//coment
+
 export function LogIn() {
   const [patient, setPatient] = useState(patientFormat);
   const [created, setCreated] = useState(false);
+  const auth = useAuth();
+
   function handleSubmit(e) {
     e.preventDefault(); // Mandatory to avoid default refresh
-
-    fetch(url, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: patient.email,
-        password: patient.password,
-      }),
-    }).then((response) => {
-      response.json();
-      console.log(response);
-    });
-    alert("Patient Created as:" + JSON.stringify(patient, null, 4));
-    setPatient(patientFormat);
-    setCreated(true);
+    if (patient.email !== "" && patient.password !== "") {
+      auth.loginAction(patient);
+      return;
+    }
+    alert("pleae provide a valid input");
   }
   if (created) {
     return <Navigate to="/" />;

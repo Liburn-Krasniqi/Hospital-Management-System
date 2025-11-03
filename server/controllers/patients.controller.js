@@ -68,9 +68,10 @@ export class PatientController {
         // Generate tokens
         const [accessToken, refreshToken] = Auth.generateTokens(minimalPatient);
 
-        res
-          .status(200)
-          .json({ accessToken: accessToken, refreshToken: refreshToken });
+        res.status(200).json({
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        });
       } else {
         res.status(401).send("Not Allowed!");
       }
