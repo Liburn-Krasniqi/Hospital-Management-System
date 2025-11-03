@@ -1,10 +1,7 @@
 import express from "express";
 import cors from "cors";
 
-// Middleware (check later if possible to import all in one line)
-import logger from "./middleware/logger.js";
-import errorHandler from "./middleware/error.js";
-import notFound from "./middleware/notFound.js";
+import { logger, errorHandler, notFound } from "./middleware/index.js";
 
 // Route imports
 import patients from "./routes/patients.js";
