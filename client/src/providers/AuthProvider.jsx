@@ -1,15 +1,25 @@
 import { useContext, createContext, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Why ?
-import { url } from "../features"; // Instead of this i might have to make the URL a passable argument as well? Also dont call it URL but something more specific like PatientUrl idk...
 
 const AuthContext = createContext();
 
+// Should return:
+// - Users Name
+// - PFP (if applicable) (probably not as of now)
+// - Access token
+// - Refresh token (both jtw)
+//
+
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("token") || ""); // Understand what local storage is?
+  const [user, setUser] = useState("");
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [refreshToken, setRefreshToken] = useState(
+    localStorage.getItem("refreshToken") || ""
+  );
   const navigate = useNavigate();
 
-  const loginAction = async (data) => {
+  const loginAction = async (data, url) => {
+    // url should also be diff for patients or for doctors etc
     try {
       const response = await fetch(`${url}login`, {
         method: "POST",
@@ -19,9 +29,12 @@ export const AuthProvider = ({ children }) => {
 
       const jsonData = await response.json(); // This converts the ReadableStream to JSON
       if (jsonData) {
-        setUser(jsonData.refreshToken);
+        setUser({ name: jsonData.name }); // work on this
         setToken(jsonData.accessToken);
+        setRefreshToken(jsonData.refreshToken);
+
         localStorage.setItem("token", jsonData.accessToken);
+        localStorage.setItem("refreshToken", jsonData.refreshToken);
         navigate("/");
         return;
       }
@@ -33,17 +46,21 @@ export const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     setUser(null);
+    setRefreshToken("");
     setToken("");
     localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
     navigate("/login");
   };
   return (
-    <AuthContext.Provider value={{ token, user, loginAction, logOut }}>
+    <AuthContext.Provider
+      value={{ user, token, refreshToken, loginAction, logOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  return useContext(AuthContext); // use this thing to access context from other components i guess?
 };
