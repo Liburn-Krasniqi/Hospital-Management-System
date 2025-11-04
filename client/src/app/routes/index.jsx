@@ -2,14 +2,16 @@ import { Route, Routes } from "react-router";
 
 import { Layout } from "../../components/Layout";
 import { Landing, Patients, SignUp, LogIn } from "../../features";
-import PrivateRoute from "./PrivateRoute"; // use later
+import PrivateRoute from "./PrivateRoute";
 
 export function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Landing />} />
-        <Route path="patients" element={<Patients />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="patients" element={<Patients />} />
+        </Route>
         <Route path="signup" element={<SignUp />} />
         <Route path="login" element={<LogIn />} />
       </Route>

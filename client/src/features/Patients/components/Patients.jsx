@@ -33,8 +33,6 @@ export const patientFormat = {
   password: "",
 };
 
-export const url = "http://localhost:8000/api/patients/"; // probably have this imported later on from an API module or something
-
 export function Patients() {
   const [patients, setPatients] = useState([]); // for reading the data and displaying it on the table
   const [isLoading, setLoading] = useState(true); // for simple aesthetics and indicating that the data is being loaded

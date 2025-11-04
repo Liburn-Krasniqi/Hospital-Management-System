@@ -59,16 +59,17 @@ export class PatientController {
         return res.status(400).send("Cannot find Patient");
       }
 
+      // check if pw is valid
       if (await bcrypt.compare(data.password, patient.password)) {
-        const minimalPatient = {
+        // Generate tokens
+        const [accessToken, refreshToken] = Auth.generateTokens({
           // trying to not send the whole patient as to make the token smaller
           email: patient.email,
           name: patient.name,
-        };
-        // Generate tokens
-        const [accessToken, refreshToken] = Auth.generateTokens(minimalPatient);
+        });
 
         res.status(200).json({
+          name: patient.name,
           accessToken: accessToken,
           refreshToken: refreshToken,
         });

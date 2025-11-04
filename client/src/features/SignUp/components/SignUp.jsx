@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { url, patientFormat } from "../../Patients";
+import { patientFormat } from "../../Patients";
 import { Card } from "../../../components/UI";
 import { Navigate } from "react-router-dom";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export function SignUp() {
   const [patient, setPatient] = useState(patientFormat);
@@ -11,7 +11,7 @@ export function SignUp() {
   function handleSubmit(e) {
     e.preventDefault(); // Mandatory to avoid default refresh
 
-    fetch(url, {
+    fetch("http://localhost:8000/api/patients/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
