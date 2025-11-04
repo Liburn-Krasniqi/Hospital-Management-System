@@ -1,4 +1,10 @@
-import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
+import {
+  Container,
+  Nav,
+  Navbar,
+  Offcanvas,
+  NavDropdown,
+} from "react-bootstrap";
 import { CircleUserRound } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../providers";
@@ -44,14 +50,27 @@ export function Navigation() {
                 <Nav.Link className="color-3" as={Link} to="/signup">
                   Sign Up
                 </Nav.Link>
-                <Nav.Link className="color-4  " as={Link} to="/login">
-                  {/* this link should point to profile in case user is logged in */}
-                  {username ? (
-                    username[0][0] + username.split(" ")[1][0]
-                  ) : (
+                {/* this link should point to profile in case user is logged in // or better have the log out option */}
+                {username ? (
+                  <NavDropdown
+                    align="end"
+                    title={`${username[0][0] + username.split(" ")[1][0]}`}
+                    id="navbarScrollingDropdown"
+                  >
+                    <NavDropdown.Item
+                      className="text-danger"
+                      onClick={() => {
+                        auth.logOut();
+                      }}
+                    >
+                      Log Out
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                ) : (
+                  <Nav.Link className="color-4" as={Link} to="/login">
                     <CircleUserRound></CircleUserRound>
-                  )}
-                </Nav.Link>
+                  </Nav.Link>
+                )}
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

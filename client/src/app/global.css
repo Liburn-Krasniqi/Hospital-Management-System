@@ -1,60 +1,60 @@
 body {
-  background-color: #DDF4E7 !important;
+  background-color: #ddf4e7 !important;
 }
 
 /* Color schema/palette */
 .background-1 {
-background-color: #124170 !important;
+  background-color: #124170 !important;
 }
 
 .background-2 {
-background-color: #26667F !important;
+  background-color: #26667f !important;
 }
 
 .background-3 {
-background-color: #67C090 !important;
+  background-color: #67c090 !important;
 }
 
 .background-4 {
-background-color: #DDF4E7 !important;
+  background-color: #ddf4e7 !important;
 }
 
-.background-white{
-color: white !important;
+.background-white {
+  color: white !important;
 }
 
 .color-1 {
-color: #124170 !important;
+  color: #124170 !important;
 }
 
 .color-2 {
-color: #26667F !important;
+  color: #26667f !important;
 }
 
 .color-3 {
-color: #67C090 !important;
+  color: #67c090 !important;
 }
 
 .color-4 {
-color: #DDF4E7 !important;
+  color: #ddf4e7 !important;
 }
 
-.color-white{
-color: white !important;
+.color-white {
+  color: white !important;
 }
 
 /*Bottom Shadow for Cards and Froms or whatever*/
 .shadow-bottom {
-box-shadow: 0px 6px 6px -2px rgba(0, 0, 0, 0.35);
+  box-shadow: 0px 6px 6px -2px rgba(0, 0, 0, 0.35);
 }
 
 /* After this idk what happens */
 /* For buttons */
 
 .btn.background-1:hover {
-background-color: #164a41 !important;
-transform: scale(0.97);
-transition: all 0.1s ease;
+  background-color: #164a41 !important;
+  transform: scale(0.97);
+  transition: all 0.1s ease;
 }
 
 /* Loading animations */
@@ -109,10 +109,10 @@ button:disabled:hover {
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
-  border: 2px solid #81B214;
+  border: 2px solid #81b214;
   border-radius: 6px;
   background-color: transparent;
-  color: #81B214;
+  color: #81b214;
   cursor: pointer;
   font-weight: 500;
   min-width: 180px;
@@ -124,12 +124,12 @@ button:disabled:hover {
 }
 
 .custom-dropdown-toggle::after {
-  content: '';
+  content: "";
   width: 0;
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 6px solid #81B214;
+  border-top: 6px solid #81b214;
   transition: transform 0.2s ease;
   flex-shrink: 0;
 }
@@ -144,7 +144,7 @@ button:disabled:hover {
   left: 0;
   right: 0;
   background-color: white;
-  border: 2px solid #81B214;
+  border: 2px solid #81b214;
   border-top: none;
   border-radius: 0 0 6px 6px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -165,10 +165,18 @@ button:disabled:hover {
 
 .custom-dropdown-item:hover {
   background-color: rgba(129, 178, 20, 0.1);
-  color: #81B214;
+  color: #81b214;
 }
 
 .custom-dropdown-item.active {
-  background-color: #81B214;
+  background-color: #81b214;
   color: white;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+.dropdown-toggle {
+  color: #ddf4e7 !important;
 }
