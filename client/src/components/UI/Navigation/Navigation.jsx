@@ -47,9 +47,14 @@ export function Navigation() {
                 <Nav.Link className="color-3" as={Link} to="/">
                   Home
                 </Nav.Link>
-                <Nav.Link className="color-3" as={Link} to="/signup">
-                  Sign Up
-                </Nav.Link>
+                {username ? (
+                  <></>
+                ) : (
+                  <Nav.Link className="color-3" as={Link} to="/signup">
+                    Sign Up
+                  </Nav.Link>
+                )}
+
                 {/* this link should point to profile in case user is logged in // or better have the log out option */}
                 {username ? (
                   <NavDropdown
