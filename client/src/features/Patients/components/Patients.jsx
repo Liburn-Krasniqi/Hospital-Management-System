@@ -15,12 +15,12 @@
 // 1. Remove the form from the tables implementation. (Create seperate component) DONE.
 // 2. Create a create operation. DONEish.
 // 3. Improve style. (Pagiation centering and styling, loading spinny, etc)
-// 4. Derive customTable and customForm from these implementations afterwards. (Might have to do this much later on)
+// 4. Derive customTable and customForm from these implementations afterwards. (Might have to do this much later on) // doin this rn
 
 import { useState, useEffect } from "react";
 import { PatientsTable } from "./PatientsTable";
 import { PatientForm } from "./PatientsForm";
-import { Pagination } from "./Pagination";
+import { Pagination } from "../../../components/Custom";
 
 // for editing patients
 export const patientFormat = {
@@ -143,6 +143,7 @@ export function Patients() {
         setPatient={setPatient}
         handleSubmit={handleSubmit}
       ></PatientForm>
+
       <PatientsTable
         isLoading={isLoading}
         patients={patients}
@@ -150,7 +151,7 @@ export function Patients() {
         handleDelete={handleDelete}
         handleCreate={handleCreate}
       ></PatientsTable>
-      {/* Pagination, is probably considered custom */}
+
       <Pagination
         currentPage={currentPage}
         jumpToPage={jumpToPage}
