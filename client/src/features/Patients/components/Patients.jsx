@@ -21,6 +21,7 @@ import { useState, useEffect } from "react";
 import { PatientsTable } from "./PatientsTable";
 import { PatientForm } from "./PatientsForm";
 import { Pagination } from "../../../components/Custom";
+import { CustomTable } from "./CustomTable";
 
 // for editing patients
 export const patientFormat = {
@@ -144,13 +145,16 @@ export function Patients() {
         handleSubmit={handleSubmit}
       ></PatientForm>
 
-      <PatientsTable
+      <CustomTable
         isLoading={isLoading}
-        patients={patients}
+        entities={patients}
+        entityName={"Patient"}
+        fields={["name", "email", "phone", "address", "dateOfBirth"]}
+        fieldDisplayName={["Name", "Email", "Phone", "Address", "Birthday"]}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleCreate={handleCreate}
-      ></PatientsTable>
+      ></CustomTable>
 
       <Pagination
         currentPage={currentPage}
