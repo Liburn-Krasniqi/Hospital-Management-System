@@ -11,17 +11,11 @@
 //   appointments Appointment[]
 //   }
 
-// TODO:
-// 1. Remove the form from the tables implementation. (Create seperate component) DONE.
-// 2. Create a create operation. DONEish.
-// 3. Improve style. (Pagiation centering and styling, loading spinny, etc)
 // 4. Derive customTable and customForm from these implementations afterwards. (Might have to do this much later on) // doin this rn
 
 import { useState, useEffect } from "react";
-import { PatientsTable } from "./PatientsTable";
 import { PatientForm } from "./PatientsForm";
-import { Pagination } from "../../../components/Custom";
-import { CustomTable } from "./CustomTable";
+import { Pagination, CustomTable } from "../../../components/Custom";
 
 // for editing patients
 export const patientFormat = {

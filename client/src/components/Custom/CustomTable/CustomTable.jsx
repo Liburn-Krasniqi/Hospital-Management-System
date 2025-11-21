@@ -3,9 +3,11 @@ import { CirclePlus } from "lucide-react";
 /*
 
 const [isLoading, setLoading] = useState(true); (setup in parent)
-const [patients, setPatients] = useState([]); (setup in parent)
+const [entities, setEntities] = useState([]); (setup in parent)
 
-
+handleEdit()
+handleDelete()
+handleCreate()
 
 */
 
@@ -13,8 +15,8 @@ export function CustomTable({
   isLoading, // for simple aesthetics and indicating that the data is being loaded
   entities, // (rows) array for reading the data and displaying it on the table
   entityName, // name of the type of entity that will be displayed on the table (e.g., Patient)
-  fields, // array for defining table structure
-  fieldDisplayName,
+  fields, // array to access each entities attributes
+  fieldDisplayName, // array for defining table structure
   // callbacks
   handleEdit,
   handleDelete,
