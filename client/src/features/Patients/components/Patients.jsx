@@ -14,8 +14,11 @@
 // 4. Derive customTable and customForm from these implementations afterwards. (Might have to do this much later on) // doin this rn
 
 import { useState, useEffect } from "react";
-import { PatientForm } from "./PatientsForm";
-import { Pagination, CustomTable } from "../../../components/Custom";
+import {
+  Pagination,
+  CustomTable,
+  CustomForm,
+} from "../../../components/Custom";
 
 // for editing patients
 export const patientFormat = {
@@ -27,6 +30,15 @@ export const patientFormat = {
   dateOfBirth: null,
   password: "",
 };
+const fields = ["name", "email", "phone", "address", "dateOfBirth"];
+const fieldDisplayName = ["Name", "Email", "Phone", "Address", "Birthday"];
+const placeholders = [
+  "Enter First and Last Name",
+  "Enter email",
+  "Phone Nr",
+  "Address",
+  "Birthday",
+];
 
 const url = "http://localhost:8000/api/patients/";
 
@@ -129,22 +141,29 @@ export function Patients() {
   }
   return (
     <div>
-      <PatientForm
+      <CustomForm
         isCreate={isCreate}
         setCreate={setCreate}
         isShow={isShow}
         setShow={setShow}
-        patient={patient}
-        setPatient={setPatient}
+        entity={patient}
+        entityName={"Patient"}
+        setEntity={setPatient}
+        entityFormat={patientFormat}
+        fields={fields}
+        fieldType={["text", "text", "text", "text", "date"]}
+        fieldDisplayName={fieldDisplayName}
+        placeholders={placeholders}
         handleSubmit={handleSubmit}
-      ></PatientForm>
+      ></CustomForm>
 
       <CustomTable
         isLoading={isLoading}
         entities={patients}
         entityName={"Patient"}
-        fields={["name", "email", "phone", "address", "dateOfBirth"]}
-        fieldDisplayName={["Name", "Email", "Phone", "Address", "Birthday"]}
+        fields={fields}
+        fieldDisplayName={fieldDisplayName}
+        allowCreate={false}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleCreate={handleCreate}

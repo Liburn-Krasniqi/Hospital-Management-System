@@ -42,38 +42,42 @@ Takes in arguments:
 */
 
 export function Pagination({ currentPage, jumpToPage, pageNumbers }) {
-  return (
-    <div className="d-flex justify-content-center mt-5 ">
-      <ul className="list-group list-group-horizontal shadow-lg">
-        <button
-          onClick={() => jumpToPage(currentPage - 1)}
-          className="background-1 border-0 rounded-start"
-        >
-          <ArrowBigLeft fill="#67c090" className="color-3"></ArrowBigLeft>
-        </button>
+  if (pageNumbers.length > 0) {
+    return (
+      <div className="d-flex justify-content-center mt-5 ">
+        <ul className="list-group list-group-horizontal shadow-lg">
+          <button
+            onClick={() => jumpToPage(currentPage - 1)}
+            className="background-1 border-0 rounded-start"
+          >
+            <ArrowBigLeft fill="#67c090" className="color-3"></ArrowBigLeft>
+          </button>
 
-        {pageNumbers.map((number) => {
-          return (
-            <li
-              className={`list-group-item  border-0 ${classes.pagination_li} ${
-                number === currentPage ? "background-2" : "background-3"
-              }`}
-              key={number}
-              id={number}
-              onClick={() => jumpToPage(number)}
-            >
-              {number + 1}
-            </li>
-          );
-        })}
+          {pageNumbers.map((number) => {
+            return (
+              <li
+                className={`list-group-item  border-0 ${
+                  classes.pagination_li
+                } ${number === currentPage ? "background-2" : "background-3"}`}
+                key={number}
+                id={number}
+                onClick={() => jumpToPage(number)}
+              >
+                {number + 1}
+              </li>
+            );
+          })}
 
-        <button
-          onClick={() => jumpToPage(currentPage + 1)}
-          className="background-1 border-0 rounded-end"
-        >
-          <ArrowBigRight fill="#67c090" className="color-3"></ArrowBigRight>
-        </button>
-      </ul>
-    </div>
-  );
+          <button
+            onClick={() => jumpToPage(currentPage + 1)}
+            className="background-1 border-0 rounded-end"
+          >
+            <ArrowBigRight fill="#67c090" className="color-3"></ArrowBigRight>
+          </button>
+        </ul>
+      </div>
+    );
+  } else {
+    return <></>;
+  }
 }
