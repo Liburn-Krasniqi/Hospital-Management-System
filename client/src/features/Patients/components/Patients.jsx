@@ -11,16 +11,14 @@
 //   appointments Appointment[]
 //   }
 
-// TODO:
-// 1. Remove the form from the tables implementation. (Create seperate component) DONE.
-// 2. Create a create operation. DONEish.
-// 3. Improve style. (Pagiation centering and styling, loading spinny, etc)
-// 4. Derive customTable and customForm from these implementations afterwards. (Might have to do this much later on)
+// 4. Derive customTable and customForm from these implementations afterwards. (Might have to do this much later on) // doin this rn
 
 import { useState, useEffect } from "react";
-import { PatientsTable } from "./PatientsTable";
-import { PatientForm } from "./PatientsForm";
-import { Pagination } from "./Pagination";
+import {
+  Pagination,
+  CustomTable,
+  CustomForm,
+} from "../../../components/Custom";
 
 // for editing patients
 export const patientFormat = {
@@ -32,6 +30,15 @@ export const patientFormat = {
   dateOfBirth: null,
   password: "",
 };
+const fields = ["name", "email", "phone", "address", "dateOfBirth"];
+const fieldDisplayName = ["Name", "Email", "Phone", "Address", "Birthday"];
+const placeholders = [
+  "Enter First and Last Name",
+  "Enter email",
+  "Phone Nr",
+  "Address",
+  "Birthday",
+];
 
 const url = "http://localhost:8000/api/patients/";
 
@@ -134,23 +141,34 @@ export function Patients() {
   }
   return (
     <div>
-      <PatientForm
+      <CustomForm
         isCreate={isCreate}
         setCreate={setCreate}
         isShow={isShow}
         setShow={setShow}
-        patient={patient}
-        setPatient={setPatient}
+        entity={patient}
+        entityName={"Patient"}
+        setEntity={setPatient}
+        entityFormat={patientFormat}
+        fields={fields}
+        fieldType={["text", "text", "text", "text", "date"]}
+        fieldDisplayName={fieldDisplayName}
+        placeholders={placeholders}
         handleSubmit={handleSubmit}
-      ></PatientForm>
-      <PatientsTable
+      ></CustomForm>
+
+      <CustomTable
         isLoading={isLoading}
-        patients={patients}
+        entities={patients}
+        entityName={"Patient"}
+        fields={fields}
+        fieldDisplayName={fieldDisplayName}
+        allowCreate={false}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleCreate={handleCreate}
-      ></PatientsTable>
-      {/* Pagination, is probably considered custom */}
+      ></CustomTable>
+
       <Pagination
         currentPage={currentPage}
         jumpToPage={jumpToPage}
