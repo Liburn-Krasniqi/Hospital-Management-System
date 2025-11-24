@@ -44,7 +44,8 @@ export function Navigation() {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3 fw-bold">
-                <Nav.Link className="color-3" as={Link} to="/">
+                <Nav.Link className="color-3" as={Link} to="/patients">
+                  {/* change later  */}
                   Home
                 </Nav.Link>
                 {username ? (
