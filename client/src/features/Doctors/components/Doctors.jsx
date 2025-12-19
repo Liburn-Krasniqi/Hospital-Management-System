@@ -29,9 +29,11 @@ const doctorFormat = {
 
 // attributes to be displayed on the table and form
 const fields = ["name", "email", "phone", "specialty", "password"];
-const fieldsTable = ["name", "email", "phone", "specialty"];
 const fieldDisplayName = ["Name", "Email", "Phone", "Specialty", "Password"];
+
+const fieldsTable = ["name", "email", "phone", "specialty"];
 const fieldDisplayNameTable = ["Name", "Email", "Phone", "Specialty"];
+
 const placeholders = [
   "Enter First and Last Name",
   "Enter email",
@@ -151,7 +153,8 @@ export function Doctors() {
         setEntity={setDoctor}
         entityFormat={doctorFormat}
         fields={fields}
-        fieldType={["text", "text", "text", "text"]}
+        fieldType={["text", "email", "text", "text", "text"]}
+        //          ["Name", "Email", "Phone", "Specialty", "Password"];
         fieldDisplayName={fieldDisplayName}
         placeholders={placeholders}
         handleSubmit={handleSubmit}

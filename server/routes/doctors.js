@@ -12,8 +12,8 @@ Doctors.get("/id/:id", DoctorController.getDoctor);
 // //Create new doctor
 Doctors.post("/", DoctorController.createDoctor);
 
-// // Log In doctor // ermmmm??
-// Doctors.post("/login", DoctorController.authenticatePatient);
+// // Log In doctor
+Doctors.post("/login", DoctorController.authenticateDoctor);
 
 // //Update a doctor
 Doctors.put("/id/:id", DoctorController.updateDoctor);
