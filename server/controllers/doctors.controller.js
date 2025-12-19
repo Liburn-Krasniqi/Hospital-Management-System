@@ -106,6 +106,7 @@ export class DoctorController {
 
         res.status(200).json({
           name: doctor.name,
+          role: "doctor", // Dirty fix
           accessToken: accessToken,
           refreshToken: refreshToken,
         });

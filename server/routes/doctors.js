@@ -12,7 +12,7 @@ Doctors.get("/id/:id", DoctorController.getDoctor);
 // //Create new doctor
 Doctors.post("/", DoctorController.createDoctor);
 
-// // Log In doctor // ermmmm??
+// // Log In doctor
 Doctors.post("/login", DoctorController.authenticateDoctor);
 
 // //Update a doctor
