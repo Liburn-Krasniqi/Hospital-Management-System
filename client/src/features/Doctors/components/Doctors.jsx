@@ -1,15 +1,14 @@
-// model Patient{
-//   id  String @id @default(uuid())
+// model Doctor{
+//   id String @id @default(uuid())
 //   name String
 //   email String @unique
 //   password String
 //   phone String
-//   address String
-//   dateOfBirth DateTime
+//   specialty String
 //   createdAt DateTime @default(now())
 //   updatedAt DateTime @updatedAt
 //   appointments Appointment[]
-//   }
+// }
 
 import { useState, useEffect } from "react";
 import {
@@ -18,33 +17,34 @@ import {
   CustomForm,
 } from "../../../components/Custom";
 
-// for editing patients
-export const patientFormat = {
+// for editing doctors
+const doctorFormat = {
   id: "",
   name: "",
   email: "",
   phone: "",
-  address: "",
-  dateOfBirth: null,
+  specialty: "",
   password: "",
 };
 
 // attributes to be displayed on the table and form
-const fields = ["name", "email", "phone", "address", "dateOfBirth"];
-const fieldDisplayName = ["Name", "Email", "Phone", "Address", "Birthday"];
+const fields = ["name", "email", "phone", "specialty", "password"];
+const fieldsTable = ["name", "email", "phone", "specialty"];
+const fieldDisplayName = ["Name", "Email", "Phone", "Specialty", "Password"];
+const fieldDisplayNameTable = ["Name", "Email", "Phone", "Specialty"];
 const placeholders = [
   "Enter First and Last Name",
   "Enter email",
   "Phone Nr",
-  "Address",
-  "Birthday",
+  "Specialty",
+  "Password",
 ];
 
 // backend url
-const url = "http://localhost:8000/api/patients/";
+const url = "http://localhost:8000/api/doctors";
 
-export function Patients() {
-  const [patients, setPatients] = useState([]); // for reading the data and displaying it on the table
+export function Doctors() {
+  const [doctors, setDoctors] = useState([]); // for reading the data and displaying it on the table
   const [isLoading, setLoading] = useState(true); // for simple aesthetics and indicating that the data is being loaded
 
   // for pagination
@@ -55,7 +55,7 @@ export function Patients() {
 
   const [isCreate, setCreate] = useState(false);
   const [isShow, setShow] = useState(false);
-  const [patient, setPatient] = useState(patientFormat);
+  const [doctor, setDoctor] = useState(doctorFormat);
 
   function jumpToPage(page) {
     setSkip(take * page);
@@ -69,26 +69,25 @@ export function Patients() {
 
     if (!isCreate) {
       method = "PUT";
-      fetchurl = `${url}id/${patient.id}`;
+      fetchurl = `${url}id/${doctor.id}`;
     }
     fetch(fetchurl, {
       method: method,
       body: JSON.stringify({
-        name: patient.name,
-        email: patient.email,
-        phone: patient.phone,
-        address: patient.address,
-        dateOfBirth: patient.dateOfBirth,
-        password: patient.password, // get rid of this later
+        name: doctor.name,
+        email: doctor.email,
+        phone: doctor.phone,
+        specialty: doctor.specialty,
+        password: doctor.password, // get rid of this later
       }),
       headers: { "Content-Type": "application/json" },
     }).then((response) => {
       response.json();
       console.log(response);
     });
-    alert("Patient edited as:" + JSON.stringify(patient, null, 4));
+    alert("Doctor edited as:" + JSON.stringify(doctor, null, 4));
     setCreate(false);
-    setPatient(patientFormat);
+    setDoctor(doctorFormat);
   }
 
   function handleCreate() {
@@ -97,17 +96,17 @@ export function Patients() {
     setShow(true);
   }
 
-  function handleEdit(patient) {
+  function handleEdit(doctor) {
     setCreate(false);
     // dont take in id but take in the patient then theres no need to contact backend at all ??
-    setPatient({
-      id: patient.id,
-      name: patient.name,
-      email: patient.email,
-      phone: patient.phone,
-      address: patient.address,
-      dateOfBirth: patient.dateOfBirth,
-      password: patient.password,
+    setDoctor({
+      id: doctor.id,
+      name: doctor.name,
+      email: doctor.email,
+      phone: doctor.phone,
+      specialty: doctor.specialty,
+      dateOfBirth: doctor.dateOfBirth,
+      password: doctor.password,
     });
     setShow(true);
   }
@@ -119,27 +118,27 @@ export function Patients() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("deleted patient: " + data);
+        console.log("deleted doctor: " + data);
       });
   }
 
   useEffect(() => {
-    fetch(`${url}${take || 0}-${skip || 0}`, {
+    fetch(`${url}/${take || 0}-${skip || 0}`, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
-        setPatients(data[0]); // Since backend returns an array of [[patients] (objects), patientsCount (number)]
-        setPages(Math.ceil(data[1] / take)); // Set the number of pages based on the number of patients and how many we display per page
+        setDoctors(data[0]); // Since backend returns an array of [[doctors] (objects), doctorsCount (number)]
+        setPages(Math.ceil(data[1] / take)); // Set the number of pages based on the number of doctors and how many we display per page
         setLoading(false);
       });
   }, [skip, isShow]);
 
-  // Logic for displaying page numbers
   const pageNumbers = [];
   for (let i = 0; i < pages; i++) {
     pageNumbers.push(i);
   }
+
   return (
     <div>
       <CustomForm
@@ -147,12 +146,12 @@ export function Patients() {
         setCreate={setCreate}
         isShow={isShow}
         setShow={setShow}
-        entity={patient}
-        entityName={"Patient"}
-        setEntity={setPatient}
-        entityFormat={patientFormat}
+        entity={doctor}
+        entityName={"Doctor"}
+        setEntity={setDoctor}
+        entityFormat={doctorFormat}
         fields={fields}
-        fieldType={["text", "text", "text", "text", "date"]}
+        fieldType={["text", "text", "text", "text"]}
         fieldDisplayName={fieldDisplayName}
         placeholders={placeholders}
         handleSubmit={handleSubmit}
@@ -160,11 +159,11 @@ export function Patients() {
 
       <CustomTable
         isLoading={isLoading}
-        entities={patients}
-        entityName={"Patient"}
-        fields={fields}
-        fieldDisplayName={fieldDisplayName}
-        allowCreate={false}
+        entities={doctors}
+        entityName={"Doctor"}
+        fields={fieldsTable}
+        fieldDisplayName={fieldDisplayNameTable}
+        allowCreate={true}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleCreate={handleCreate}

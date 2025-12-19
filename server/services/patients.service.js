@@ -53,7 +53,6 @@ export class PatientService {
 
   // Update patient
   static async updatePatient(id, data) {
-    console.log("Service: " + JSON.stringify(data)); //remove laterrrr
     const patient = prisma.patient.update({
       where: {
         id: id,
@@ -78,8 +77,6 @@ export class PatientService {
         id: id,
       },
     });
-
-    console.log(`Successfuly deleted patient with id: ${id}`);
     return patient;
   }
 }
