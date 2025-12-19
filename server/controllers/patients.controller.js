@@ -19,7 +19,7 @@ export class PatientController {
   }
 
   // @desc    Get a single patient
-  // @route   GET /api/posts/:id
+  // @route   GET /api/patients/:id
   static async getPatient(req, res, next) {
     const id = req.params.id;
     const patient = await PatientService.getPatient(id);
