@@ -37,6 +37,15 @@ export class DoctorService {
     });
   }
 
+  // get one patient based on email
+  static async getDoctorEmail(email) {
+    return await prisma.doctor.findUnique({
+      where: {
+        email: email,
+      },
+    });
+  }
+
   // Create doctor
   static async createDoctor(data) {
     const hashedPassword = await bcrypt.hash(data.password, 10);

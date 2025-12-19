@@ -13,7 +13,7 @@ Doctors.get("/id/:id", DoctorController.getDoctor);
 Doctors.post("/", DoctorController.createDoctor);
 
 // // Log In doctor // ermmmm??
-// Doctors.post("/login", DoctorController.authenticatePatient);
+Doctors.post("/login", DoctorController.authenticateDoctor);
 
 // //Update a doctor
 Doctors.put("/id/:id", DoctorController.updateDoctor);

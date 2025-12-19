@@ -1,4 +1,4 @@
-import { DoctorService } from "../services/index.js";
+import { DoctorService, Auth } from "../services/index.js";
 import bcrypt from "bcrypt";
 
 export class DoctorController {
@@ -81,5 +81,40 @@ export class DoctorController {
     const deletedDoctor = await DoctorService.deleteDoctor(id);
 
     res.status(200).json(deletedDoctor);
+  }
+
+  // @desc    Log In doctor
+  // @route   Post /api/doctor/login
+  static async authenticateDoctor(req, res, next) {
+    try {
+      const data = req.body;
+
+      const doctor = await DoctorService.getDoctorEmail(data.email);
+
+      if (doctor === null) {
+        return res.status(400).send("Cannot find Doctor");
+      }
+
+      // check if pw is valid
+      if (await bcrypt.compare(data.password, doctor.password)) {
+        // Generate tokens
+        const [accessToken, refreshToken] = Auth.generateTokens({
+          // trying to not send the whole patient as to make the token smaller
+          email: doctor.email,
+          name: doctor.name,
+        });
+
+        res.status(200).json({
+          name: doctor.name,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        });
+      } else {
+        res.status(401).send("Not Allowed!");
+      }
+      //
+    } catch (error) {
+      next(error);
+    }
   }
 }
