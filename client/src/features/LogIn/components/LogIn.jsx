@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import { Card } from "../../../components/UI";
 import { useAuth } from "../../../providers";
@@ -12,12 +12,16 @@ const userFormat = {
 
 export function LogIn() {
   const [user, setUser] = useState(userFormat); // not just patients but users in general
+  const [role, setRole] = useState(false);
   const auth = useAuth();
-
   function handleSubmit(e) {
     e.preventDefault(); // Mandatory to avoid default refresh
     if (user.email !== "" && user.password !== "") {
-      auth.loginAction(user, "http://localhost:8000/api/patients/"); // url should also be diff for patients or for doctors etc
+      let end = "patients";
+      if (role) {
+        end = "doctors";
+      }
+      auth.loginAction(user, `http://localhost:8000/api/${end}/`); // url should also be diff for patients or for doctors etc
       return;
     }
     alert("please provide a valid input");
@@ -49,7 +53,17 @@ export function LogIn() {
               }}
             />
           </Form.Group>
-
+          <Form.Group className="mb-3">
+            <Form.Label>Staff Account (Yes/No)</Form.Label>
+            <Form.Check // prettier-ignore
+              type="switch"
+              id="custom-switch"
+              onChange={(e) => {
+                setRole(!role);
+                console.log(role);
+              }}
+            />
+          </Form.Group>
           <div className="d-flex justify-content-between">
             <p>
               Don't have an account?
