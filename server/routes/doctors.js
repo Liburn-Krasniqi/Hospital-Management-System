@@ -18,7 +18,7 @@ Doctors.post("/login", DoctorController.authenticateDoctor);
 // //Update a doctor
 Doctors.put("/id/:id", DoctorController.updateDoctor);
 
-// // Delete patient
+// // Delete doctor
 Doctors.delete("/id/:id", DoctorController.deleteDoctor);
 
 export { Doctors };
