@@ -1,7 +1,14 @@
 import { Route, Routes } from "react-router";
 
 import { Layout } from "../../components/Layout";
-import { Landing, Patients, SignUp, LogIn, Doctors } from "../../features";
+import {
+  Landing,
+  Patients,
+  SignUp,
+  LogIn,
+  Doctors,
+  Appointments,
+} from "../../features";
 import PrivateRoute from "./PrivateRoute";
 
 export function AppRoutes() {
@@ -14,6 +21,7 @@ export function AppRoutes() {
           <Route path="doctors" element={<Doctors />} />
         </Route>
         <Route path="signup" element={<SignUp />} />
+        <Route path="appointments" element={<Appointments />} />
         <Route path="login" element={<LogIn />} />
       </Route>
     </Routes>
