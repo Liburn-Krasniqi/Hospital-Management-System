@@ -1,11 +1,12 @@
 import { Stethoscope, Calendar, Shield } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import { LandingCard } from "./LandingCard";
 import classes from "./Landing.module.css";
 
 export function Landing() {
   return (
-    <div className="justify-content-center mt-5">
+    <div className="d-flex flex-column justify-content-center mt-5">
       <div className="d-flex justify-content-center mt-5">
         <div className="text-center mx-5 px-5">
           <img
@@ -27,7 +28,16 @@ export function Landing() {
         </div>
       </div>
 
-      <div className="d-flex justify-content-center gap-3 mt-3 ">
+      <div className="d-flex justify-content-center mt-3 mb-4">
+        <Link style={{ textDecoration: "none" }} to="/appointments">
+          <button className="d-flex flex-row background-3 px-3 pt-2 pb-1 rounded-2 align-items-center shadow border-0">
+            {/* <Calendar size={24} className="align-self-center" /> */}
+            <h2 className="text-center color-white">Book Appointment</h2>
+          </button>
+        </Link>
+      </div>
+
+      <div className="d-flex justify-content-center gap-3 mt-3 mb-5">
         <LandingCard
           title="Expert Doctors"
           text="Connect with certified specialists across all medical fields"
