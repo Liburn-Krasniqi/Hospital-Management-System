@@ -18,7 +18,7 @@ import {
 } from "../../../components/Custom";
 
 // for editing doctors
-const doctorFormat = {
+export const doctorFormat = {
   id: "",
   name: "",
   email: "",

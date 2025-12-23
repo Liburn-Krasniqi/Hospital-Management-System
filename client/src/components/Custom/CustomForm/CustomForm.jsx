@@ -39,7 +39,7 @@ export function CustomForm({
             <Form onSubmit={handleSubmit}>
               {fields.map((field, index) => {
                 return (
-                  <Form.Group className="mb-3" controlId="formName">
+                  <Form.Group className="mb-3" controlId={[field]}>
                     <Form.Label>{fieldDisplayName[index]}</Form.Label>
                     <Form.Control
                       type={fieldType[index]}
