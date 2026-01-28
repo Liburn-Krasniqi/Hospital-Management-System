@@ -44,6 +44,8 @@
 import { DoctorCard } from "./DoctorCard";
 import { useState, useEffect } from "react";
 
+const API = "http://localhost:8000/api";
+
 // Display Doctors Profiles, allow to filter on speciality and availiability etc.
 export function Appointments() {
   const [doctors, setDoctors] = useState([]); // for reading the data and displaying it on the table
@@ -52,11 +54,11 @@ export function Appointments() {
 
   const [skip, setSkip] = useState(0);
   const [isShow, setShow] = useState(false);
-  // const [doctor, setDoctor] = useState(doctorFormat);
+  const [appointmentsByDoctor, setAppointmentsByDoctor] = useState({});
   const [isLoading, setLoading] = useState(true); // for simple aesthetics and indicating that the data is being loaded
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/doctors/${take || 0}-${skip || 0}`, {
+    fetch(`${API}/doctors/${take || 0}-${skip || 0}`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -67,19 +69,20 @@ export function Appointments() {
       });
   }, [skip, isShow]);
 
-  // have a fetch for appointments
   useEffect(() => {
-    fetch(
-      `http://localhost:8000/api/appointments/id/14b87c87-e9cf-4a51-9e5b-512a396c2853`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+    if (doctors.length === 0) return;
+    Promise.all(
+      doctors.map((d) =>
+        fetch(`${API}/appointments/id/${d.id}`).then((r) => r.json())
+      )
+    ).then((results) => {
+      const byDoctor = {};
+      doctors.forEach((d, i) => {
+        byDoctor[d.id] = Array.isArray(results[i]) ? results[i] : [];
       });
-  }, [skip, isShow]);
+      setAppointmentsByDoctor(byDoctor);
+    });
+  }, [doctors]);
 
   return (
     <div>
@@ -95,10 +98,12 @@ export function Appointments() {
         {doctors.map((doctor) => {
           return (
             <DoctorCard
+              doctorId={doctor.id}
               name={doctor.name}
               speciality={doctor.specialty}
+              appointments={appointmentsByDoctor[doctor.id] || []}
               key={doctor.id}
-            ></DoctorCard>
+            />
           );
         })}
       </div>
