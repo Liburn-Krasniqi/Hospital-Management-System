@@ -64,6 +64,29 @@ export class AppointmentRequestService {
       where: {
         doctorId: id,
       },
+      include: {
+        patient: {
+          select: { id: true, name: true, email: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return appointmentRequests;
+  }
+
+  // find appointment requests by patient
+  static async getAppointmentRequestsByPatientId(id) {
+    const appointmentRequests = await prisma.appointmentRequest.findMany({
+      where: {
+        patientId: id,
+      },
+      include: {
+        doctor: {
+          select: { id: true, name: true, specialty: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
     });
 
     return appointmentRequests;

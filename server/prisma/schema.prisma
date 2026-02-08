@@ -26,6 +26,7 @@ model Patient {
   updatedAt          DateTime             @updatedAt
   appointments       Appointment[]
   AppointmentRequest AppointmentRequest[]
+  reports            Report[]
 }
 
 model Doctor {
@@ -39,6 +40,7 @@ model Doctor {
   updatedAt          DateTime             @updatedAt
   appointments       Appointment[]
   AppointmentRequest AppointmentRequest[]
+  reports            Report[]
 }
 
 model Room {
@@ -59,18 +61,28 @@ model Service {
   updatedAt   DateTime @updatedAt
 }
 
+enum TypeOfVisit {
+  CONSULTATION 
+  SURGERY
+  TEST
+  OTHER
+}
+
 model Report {
   id              String   @id @default(uuid())
   patientId       String
   doctorId        String
+  appointmentId   String?  // optional – reports can exist without an appointment
   reportDate      DateTime @default(now())
   findings        String
   recommendations String
+  typeOfVisit     TypeOfVisit @default(CONSULTATION)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  // patient Patient @relation(fields: [patientId], references: [id])
-  // doctor Doctor @relation(fields: [doctorId], references: [id])
+  patient     Patient     @relation(fields: [patientId], references: [id])
+  doctor      Doctor      @relation(fields: [doctorId], references: [id])
+  appointment Appointment? @relation(fields: [appointmentId], references: [id])
 }
 
 model Bill {
@@ -101,6 +113,7 @@ model Appointment {
 
   patient Patient @relation(fields: [patientId], references: [id])
   doctor  Doctor  @relation(fields: [doctorId], references: [id])
+  reports Report[]
 }
 
 model AppointmentRequest {

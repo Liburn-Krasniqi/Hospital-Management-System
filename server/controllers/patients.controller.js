@@ -69,7 +69,9 @@ export class PatientController {
         });
 
         res.status(200).json({
+          id: patient.id,
           name: patient.name,
+          role: "patient",
           accessToken: accessToken,
           refreshToken: refreshToken,
         });

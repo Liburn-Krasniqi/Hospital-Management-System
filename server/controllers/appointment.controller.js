@@ -51,6 +51,21 @@ export class AppointmentController {
     }
   }
 
+  // @desc    Get appointments of a patient
+  // @route   GET /api/appointments/patient/:id
+  static async getPatientAppointments(req, res, next) {
+    try {
+      const id = req.params.id;
+
+      const appointments =
+        await AppointmentService.getAppointmentsByPatientId(id);
+
+      res.status(200).json(appointments);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   // @desc    Get appointment by id
   // @route   GET /api/appointments/:id
   static async getAppointment(req, res, next) {
@@ -86,18 +101,30 @@ export class AppointmentController {
 
   /* ---------------Appointment Requests--------------- */
 
-  // @desc    Get request of a doctor
-  // @route   GET /api/appointments/requests
+  // @desc    Get requests - by doctor (?doctorId=xxx) or by patient (?patientId=xxx)
+  // @route   GET /api/appointments/requests?doctorId=xxx | ?patientId=xxx
   static async getRequests(req, res, next) {
     try {
-      const data = req.body;
+      const doctorId = req.query.doctorId;
+      const patientId = req.query.patientId;
 
-      const requests =
-        await AppointmentRequestService.getAppointmentRequestsByDoctorId(
-          data.id
-        );
-
-      res.status(201).json(requests);
+      if (doctorId) {
+        const requests =
+          await AppointmentRequestService.getAppointmentRequestsByDoctorId(
+            doctorId
+          );
+        return res.status(200).json(requests);
+      }
+      if (patientId) {
+        const requests =
+          await AppointmentRequestService.getAppointmentRequestsByPatientId(
+            patientId
+          );
+        return res.status(200).json(requests);
+      }
+      return res.status(400).json({
+        message: "doctorId or patientId query parameter is required",
+      });
     } catch (error) {
       next(error);
     }
@@ -119,28 +146,51 @@ export class AppointmentController {
     }
   }
 
-  // @desc    Update request
+  // @desc    Update request (approve/deny). Approving creates an Appointment.
   // @route   PUT /api/appointments/requests/id/:id
   static async updateRequest(req, res, next) {
-    const id = req.params.id;
+    try {
+      const id = req.params.id;
+      const data = req.body;
 
-    const request = await AppointmentRequestService.getAppointmentRequestById(
-      id
-    );
-    if (!request) {
-      const error = new Error(`A request with the id of ${id} was not found`);
-      error.status = 404;
-      return next(error);
-    }
-    const data = req.body;
-
-    const updatedRequest =
-      await AppointmentRequestService.updateAppointmentRequestStatus(
-        id,
-        data.status
+      const request = await AppointmentRequestService.getAppointmentRequestById(
+        id
       );
+      if (!request) {
+        const error = new Error(`A request with the id of ${id} was not found`);
+        error.status = 404;
+        return next(error);
+      }
 
-    res.status(200).json(updatedRequest);
+      const status = (data.status || "").toLowerCase();
+      if (status !== "approved" && status !== "rejected") {
+        return res.status(400).json({
+          message: "status must be 'approved' or 'rejected'",
+        });
+      }
+
+      const updatedRequest =
+        await AppointmentRequestService.updateAppointmentRequestStatus(
+          id,
+          status
+        );
+
+      if (status === "approved") {
+        const startTime = new Date(request.requestedDate);
+        const endTime = new Date(startTime.getTime() + 30 * 60 * 1000);
+        await AppointmentService.createAppointment({
+          patientId: request.patientId,
+          doctorId: request.doctorId,
+          appointmentStartTime: startTime,
+          appointmentEndTime: endTime,
+          reason: request.reason || undefined,
+        });
+      }
+
+      res.status(200).json(updatedRequest);
+    } catch (error) {
+      next(error);
+    }
   }
 
   // @desc    Update request
