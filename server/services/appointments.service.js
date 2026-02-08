@@ -35,6 +35,23 @@ export class AppointmentService {
     return appointments;
   }
 
+  // get appointments by patient id
+  static async getAppointmentsByPatientId(id) {
+    const appointments = await prisma.appointment.findMany({
+      where: {
+        patientId: id,
+      },
+      include: {
+        doctor: {
+          select: { id: true, name: true, specialty: true },
+        },
+      },
+      orderBy: { appointmentStartTime: "desc" },
+    });
+
+    return appointments;
+  }
+
   // get appointments by id
   static async getAppointmentById(id) {
     const appointments = await prisma.appointment.findUnique({

@@ -12,6 +12,8 @@ import {
   AppointmentRequestSuccess,
   DoctorAppointmentRequests,
   DoctorAppointments,
+  PatientAppointmentRequests,
+  PatientAppointments,
 } from "../../features";
 import PrivateRoute from "./PrivateRoute";
 
@@ -30,6 +32,8 @@ export function AppRoutes() {
         <Route path="appointments/book/:doctorId/success" element={<AppointmentRequestSuccess />} />
         <Route path="doctor/requests" element={<DoctorAppointmentRequests />} />
         <Route path="doctor/appointments" element={<DoctorAppointments />} />
+        <Route path="patient/requests" element={<PatientAppointmentRequests />} />
+        <Route path="patient/appointments" element={<PatientAppointments />} />
         <Route path="login" element={<LogIn />} />
       </Route>
     </Routes>

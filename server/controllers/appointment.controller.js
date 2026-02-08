@@ -51,6 +51,21 @@ export class AppointmentController {
     }
   }
 
+  // @desc    Get appointments of a patient
+  // @route   GET /api/appointments/patient/:id
+  static async getPatientAppointments(req, res, next) {
+    try {
+      const id = req.params.id;
+
+      const appointments =
+        await AppointmentService.getAppointmentsByPatientId(id);
+
+      res.status(200).json(appointments);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   // @desc    Get appointment by id
   // @route   GET /api/appointments/:id
   static async getAppointment(req, res, next) {
@@ -86,21 +101,30 @@ export class AppointmentController {
 
   /* ---------------Appointment Requests--------------- */
 
-  // @desc    Get request of a doctor
-  // @route   GET /api/appointments/requests?doctorId=xxx
+  // @desc    Get requests - by doctor (?doctorId=xxx) or by patient (?patientId=xxx)
+  // @route   GET /api/appointments/requests?doctorId=xxx | ?patientId=xxx
   static async getRequests(req, res, next) {
     try {
       const doctorId = req.query.doctorId;
-      if (!doctorId) {
-        return res.status(400).json({ message: "doctorId query parameter is required" });
+      const patientId = req.query.patientId;
+
+      if (doctorId) {
+        const requests =
+          await AppointmentRequestService.getAppointmentRequestsByDoctorId(
+            doctorId
+          );
+        return res.status(200).json(requests);
       }
-
-      const requests =
-        await AppointmentRequestService.getAppointmentRequestsByDoctorId(
-          doctorId
-        );
-
-      res.status(200).json(requests);
+      if (patientId) {
+        const requests =
+          await AppointmentRequestService.getAppointmentRequestsByPatientId(
+            patientId
+          );
+        return res.status(200).json(requests);
+      }
+      return res.status(400).json({
+        message: "doctorId or patientId query parameter is required",
+      });
     } catch (error) {
       next(error);
     }

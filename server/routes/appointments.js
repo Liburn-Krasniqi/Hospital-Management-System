@@ -11,6 +11,9 @@ const Appointments = express.Router();
 // Get appointments by doctor id
 Appointments.get("/id/:id", AppointmentController.getAppointments);
 
+// Get appointments by patient id
+Appointments.get("/patient/:id", AppointmentController.getPatientAppointments);
+
 //Create new appointment (only when doctor approves request)
 Appointments.post("/", AppointmentController.createAppointment);
 

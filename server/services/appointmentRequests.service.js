@@ -75,6 +75,23 @@ export class AppointmentRequestService {
     return appointmentRequests;
   }
 
+  // find appointment requests by patient
+  static async getAppointmentRequestsByPatientId(id) {
+    const appointmentRequests = await prisma.appointmentRequest.findMany({
+      where: {
+        patientId: id,
+      },
+      include: {
+        doctor: {
+          select: { id: true, name: true, specialty: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return appointmentRequests;
+  }
+
   static async deleteRequest(id) {
     const deletedRequest = await prisma.appointmentRequest.delete({
       where: {
