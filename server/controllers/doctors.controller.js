@@ -105,8 +105,9 @@ export class DoctorController {
         });
 
         res.status(200).json({
+          id: doctor.id,
           name: doctor.name,
-          role: "doctor", // Dirty fix
+          role: "doctor",
           accessToken: accessToken,
           refreshToken: refreshToken,
         });

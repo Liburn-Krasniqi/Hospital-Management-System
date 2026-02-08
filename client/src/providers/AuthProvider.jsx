@@ -31,11 +31,16 @@ export const AuthProvider = ({ children }) => {
 
       const jsonData = await response.json(); // This converts the ReadableStream to JSON
       if (jsonData) {
-        setUser({ name: jsonData.name }); // work on this
+        const userData = {
+          id: jsonData.id,
+          name: jsonData.name,
+          role: jsonData.role || "patient",
+        };
+        setUser(userData);
         setToken(jsonData.accessToken);
         setRefreshToken(jsonData.refreshToken);
 
-        localStorage.setItem("user", JSON.stringify({ name: jsonData.name }));
+        localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("token", jsonData.accessToken);
         localStorage.setItem("refreshToken", jsonData.refreshToken);
         navigate("/");
