@@ -64,6 +64,12 @@ export class AppointmentRequestService {
       where: {
         doctorId: id,
       },
+      include: {
+        patient: {
+          select: { id: true, name: true, email: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
     });
 
     return appointmentRequests;

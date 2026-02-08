@@ -22,7 +22,7 @@ Appointments.delete("/id/:id", AppointmentController.deleteAppointment);
 
 /* ---------------Appointment Requests--------------- */
 
-// Get all appointment requests
+// Get appointment requests by doctor id (query: ?doctorId=xxx)
 Appointments.get("/requests", AppointmentController.getRequests);
 
 //Create new appointment (only when doctor approves request)

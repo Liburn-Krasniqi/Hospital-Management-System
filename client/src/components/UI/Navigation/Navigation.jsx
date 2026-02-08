@@ -48,6 +48,11 @@
                     {/* change later  */}
                     Home
                   </Nav.Link>
+                  {auth.user?.role === "doctor" && (
+                    <Nav.Link className="color-3" as={Link} to="/doctor/requests">
+                      Requests
+                    </Nav.Link>
+                  )}
                   {username ? (
                     <></>
                   ) : (
