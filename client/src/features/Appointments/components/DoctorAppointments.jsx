@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, Spinner, Alert, Badge } from "react-bootstrap";
-import { Calendar, ArrowLeft, User, Clock } from "lucide-react";
+import { Calendar, ArrowLeft, User, Clock, FileText } from "lucide-react";
 import { useAuth } from "../../../providers";
 
 const API = "http://localhost:8000/api";
@@ -244,17 +244,26 @@ export function DoctorAppointments() {
                               )}
                             </div>
                           </div>
-                          <Badge
-                            bg={
-                              apt.status?.toLowerCase() === "completed"
-                                ? "secondary"
-                                : "success"
-                            }
-                            className="border-0"
-                            style={{ fontSize: "0.75rem" }}
-                          >
-                            {apt.status || "scheduled"}
-                          </Badge>
+                          <div className="d-flex align-items-center gap-2">
+                            <Link
+                              to={`/doctor/reports/create?patientId=${apt.patientId || apt.patient?.id}&appointmentId=${apt.id}`}
+                              className="btn btn-sm btn-outline-secondary"
+                            >
+                              <FileText size={14} className="me-1" />
+                              Write report
+                            </Link>
+                            <Badge
+                              bg={
+                                apt.status?.toLowerCase() === "completed"
+                                  ? "secondary"
+                                  : "success"
+                              }
+                              className="border-0"
+                              style={{ fontSize: "0.75rem" }}
+                            >
+                              {apt.status || "scheduled"}
+                            </Badge>
+                          </div>
                         </div>
                       </Card.Body>
                     </Card>
