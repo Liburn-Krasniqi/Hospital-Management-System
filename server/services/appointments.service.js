@@ -24,6 +24,12 @@ export class AppointmentService {
       where: {
         doctorId: id,
       },
+      include: {
+        patient: {
+          select: { id: true, name: true, email: true },
+        },
+      },
+      orderBy: { appointmentStartTime: "asc" },
     });
 
     return appointments;

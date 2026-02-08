@@ -49,9 +49,14 @@
                     Home
                   </Nav.Link>
                   {auth.user?.role === "doctor" && (
-                    <Nav.Link className="color-3" as={Link} to="/doctor/requests">
-                      Requests
-                    </Nav.Link>
+                    <>
+                      <Nav.Link className="color-3" as={Link} to="/doctor/requests">
+                        Requests
+                      </Nav.Link>
+                      <Nav.Link className="color-3" as={Link} to="/doctor/appointments">
+                        Appointments
+                      </Nav.Link>
+                    </>
                   )}
                   {username ? (
                     <></>
