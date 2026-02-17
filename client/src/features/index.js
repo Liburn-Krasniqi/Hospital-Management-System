@@ -5,3 +5,4 @@ export * from "./LogIn";
 export * from "./Doctors";
 export * from "./Appointments";
 export * from "./Reports";
+export * from "./Billing";
