@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, Spinner, Alert, Badge } from "react-bootstrap";
-import { Calendar, ArrowLeft, User, Clock, FileText } from "lucide-react";
+import { Calendar, ArrowLeft, User, Clock, FileText, Receipt } from "lucide-react";
 import { useAuth } from "../../../providers";
 
 const API = "http://localhost:8000/api";
@@ -251,6 +251,13 @@ export function DoctorAppointments() {
                             >
                               <FileText size={14} className="me-1" />
                               Write report
+                            </Link>
+                            <Link
+                              to={`/doctor/bills/send?patientId=${apt.patientId || apt.patient?.id}`}
+                              className="btn btn-sm btn-outline-primary"
+                            >
+                              <Receipt size={14} className="me-1" />
+                              Send bill
                             </Link>
                             <Badge
                               bg={

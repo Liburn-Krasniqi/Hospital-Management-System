@@ -62,6 +62,12 @@
                       <Nav.Link className="color-3" as={Link} to="/doctor/reports/create">
                         Write Report
                       </Nav.Link>
+                      <Nav.Link className="color-3" as={Link} to="/doctor/bills/services">
+                        Billing Services
+                      </Nav.Link>
+                      <Nav.Link className="color-3" as={Link} to="/doctor/bills/send">
+                        Send Bill
+                      </Nav.Link>
                     </>
                   )}
                   {auth.user?.role === "patient" && (
@@ -74,6 +80,9 @@
                       </Nav.Link>
                       <Nav.Link className="color-3" as={Link} to="/patient/reports">
                         My Reports
+                      </Nav.Link>
+                      <Nav.Link className="color-3" as={Link} to="/patient/bills">
+                        My Bills
                       </Nav.Link>
                     </>
                   )}

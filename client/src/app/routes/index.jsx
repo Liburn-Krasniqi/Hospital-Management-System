@@ -17,6 +17,9 @@ import {
   PatientReports,
   DoctorReports,
   CreateReport,
+  DoctorServices,
+  SendBill,
+  PatientBills,
 } from "../../features";
 import PrivateRoute from "./PrivateRoute";
 
@@ -40,6 +43,9 @@ export function AppRoutes() {
         <Route path="patient/reports" element={<PatientReports />} />
         <Route path="doctor/reports" element={<DoctorReports />} />
         <Route path="doctor/reports/create" element={<CreateReport />} />
+        <Route path="doctor/bills/services" element={<DoctorServices />} />
+        <Route path="doctor/bills/send" element={<SendBill />} />
+        <Route path="patient/bills" element={<PatientBills />} />
         <Route path="login" element={<LogIn />} />
       </Route>
     </Routes>

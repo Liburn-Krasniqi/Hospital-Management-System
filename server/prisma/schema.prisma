@@ -27,6 +27,7 @@ model Patient {
   appointments       Appointment[]
   AppointmentRequest AppointmentRequest[]
   reports            Report[]
+  bills              Bill[]
 }
 
 model Doctor {
@@ -55,10 +56,11 @@ model Room {
 model Service {
   id          String   @id @default(uuid())
   name        String
-  description String
+  description String?
   price       Float
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  bills       Bill[]
 }
 
 enum TypeOfVisit {
@@ -88,6 +90,7 @@ model Report {
 model Bill {
   id          String   @id @default(uuid())
   patientId   String
+  serviceId   String
   amount      Float
   billingDate DateTime @default(now())
   dueDate     DateTime
@@ -95,8 +98,8 @@ model Bill {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  // Uncomment the following line if you want to establish a relation
-  // patient Patient @relation(fields: [patientId], references: [id])
+  patient Patient @relation(fields: [patientId], references: [id])
+  service Service @relation(fields: [serviceId], references: [id])
 }
 
 // AI generated model for Appointment, will have to look into it myself
